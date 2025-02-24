@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86a19c33186531c4f9c908f9b51fe195, type: 3}
+  m_Name: PlayerDefaultSettings
+  m_EditorClassIdentifier: 
+  MoveSpeed: 35
+  JumpForce: 200
+  LinearDrag: 10
+  GroundCheckDistance: 0.52
+  StopForce: 10
+  InAirMoveSpeed: 19.05
+  GroundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  MaxSpeed: 5
+  GravityAdd: -23.7
+  MaxJumpTime: 0.66
