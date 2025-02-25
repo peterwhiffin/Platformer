@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a19c33186531c4f9c908f9b51fe195, type: 3}
   m_Name: PlayerDefaultSettings
   m_EditorClassIdentifier: 
-  MoveSpeed: 35
-  JumpForce: 200
+  MoveSpeed: 45.3
+  JumpForce: 373.4
   LinearDrag: 10
   GroundCheckDistance: 0.52
   StopForce: 10
@@ -22,5 +22,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   MaxSpeed: 5
-  GravityAdd: -23.7
-  MaxJumpTime: 0.66
+  GravityAdd: -24.3
+  MaxJumpTime: 0.15
+  MaxJumpSpeed: 8.56

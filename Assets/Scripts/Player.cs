@@ -1,179 +1,48 @@
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace PetesPlatformer
 {
-    [SerializeField]
-    private Rigidbody2D m_Rigidbody;
-
-    [SerializeField]
-    private Animator m_Animator;
-
-    [SerializeField]
-    private SpriteRenderer m_SpriteRenderer;
-
-    [SerializeField]
-    private Camera m_Camera;
-
-    [SerializeField]
-    private Transform m_CameraTarget;
-
-    [SerializeField]
-    private PlayerSettings m_Settings;
-
-    [SerializeField]
-    private InputReader m_Input;
-
-    [SerializeField]
-    private Vector2 m_MoveInput;
-
-    [SerializeField]
-    private bool m_JumpInput;
-
-    [SerializeField]
-    private bool m_IsGrounded;
-    private bool m_DidJump = false;
-    private float m_JumpTimer = 0f;
-    private float m_YVelocity;
-
-    private void Start()
+    public class Player : MonoBehaviour
     {
-        m_Input.Initialize();
-        InputReader.PlayerMoved += OnMoveInput;
-        InputReader.PlayerJumped += OnJumpInput;
-    }
+        StateMachine m_stateMachine;
 
-    private void OnDestroy()
-    {
-        InputReader.PlayerMoved -= OnMoveInput;
-        InputReader.PlayerJumped -= OnJumpInput;
-    }
+        [field: SerializeField] public PlayerMotor Motor { get; private set; }
+        [field: SerializeField] public PlayerAnimator Animator { get; private set; }
+        [field: SerializeField] public PlayerInput Input { get; private set; }
 
-    private void OnMoveInput(Vector2 move)
-    {
-        m_MoveInput = move.normalized;
-    }
+        public IdleState IdleState { get; private set; }
+        public MoveState MoveState { get; private set; }
+        public JumpState JumpState { get; private set; }
+        public FallingState FallingState { get; private set; }
+        public WallSlideState WallSlideState { get; private set; }
 
-    private void OnJumpInput(bool wasPerformed)
-    {
-        m_JumpInput = wasPerformed;
-        if (!wasPerformed)
-            m_DidJump = false;
-    }
-
-    private void Update()
-    {
-        AnimatePlayer();
-    }
-
-    private void AnimatePlayer()
-    {
-        if (m_MoveInput.x != 0f)
+        private void Awake()
         {
-            m_SpriteRenderer.flipX = m_MoveInput.x < 0;
+            m_stateMachine = new StateMachine();
+
+            IdleState = new IdleState(this, m_stateMachine);
+            MoveState = new MoveState(this, m_stateMachine);
+            JumpState = new JumpState(this, m_stateMachine);
+            FallingState = new FallingState(this, m_stateMachine);
+            WallSlideState = new WallSlideState(this, m_stateMachine);
+
+            m_stateMachine.Initialize(IdleState);
         }
 
-        if (m_IsGrounded)
+        private void Update()
         {
-            m_Animator.SetFloat("Move", Mathf.Abs(m_MoveInput.x));
+            m_stateMachine.CurrentState.Update();
         }
-    }
 
-    private void FixedUpdate()
-    {
-        GroundCheck();
-
-        if (m_IsGrounded && !m_DidJump)
+        private void FixedUpdate()
         {
-            MoveGrounded();
+            m_stateMachine.CurrentState.FixedUpdate();
         }
-        else
-        {
-            MoveInAir();
-        }
-    }
 
-    private void LateUpdate()
-    {
-        m_Camera.transform.position = new Vector3(
-            m_CameraTarget.position.x,
-            m_CameraTarget.position.y,
-            -10f
-        );
-    }
-
-    private void MoveGrounded()
-    {
-        m_YVelocity = 0f;
-        Vector2 jumpForce = Vector2.zero;
-        if (m_JumpInput && !m_DidJump)
+        private void LateUpdate()
         {
-            m_IsGrounded = false;
-            m_DidJump = true;
-            m_JumpTimer = 0f;
-            jumpForce = transform.up * m_Settings.JumpForce;
-        }
-        Vector2 moveForce = Vector2.zero;
-
-        if (Mathf.Abs(m_Rigidbody.linearVelocityX) < m_Settings.MaxSpeed)
-            moveForce = new Vector2(m_MoveInput.x, 0f) * m_Settings.MoveSpeed;
-        else
-        {
-            Vector2 direction = m_Rigidbody.linearVelocity.normalized;
-            m_Rigidbody.linearVelocityX = direction.x * m_Settings.MaxSpeed;
-        }
-        if (m_MoveInput.x == 0)
-        {
-            moveForce = new Vector2(-m_Rigidbody.linearVelocity.x, 0) * m_Settings.StopForce;
-        }
-        m_Rigidbody.AddForce(moveForce + jumpForce);
-    }
-
-    private void MoveInAir()
-    {
-        Vector2 jumpForce = Vector2.zero;
-        Vector2 moveForce = Vector2.zero;
-        if (Mathf.Abs(m_Rigidbody.linearVelocityX) < m_Settings.MaxSpeed)
-            moveForce = new Vector2(m_MoveInput.x, 0f) * m_Settings.InAirMoveSpeed;
-
-        if (m_DidJump && m_JumpInput)
-        {
-            if (m_JumpTimer < m_Settings.MaxJumpTime)
-            {
-                m_JumpTimer += Time.fixedDeltaTime;
-                //jumpForce =
-                //   Vector2.up * m_Settings.JumpForce * (1 - m_JumpTimer / m_Settings.MaxJumpTime);
-            }
-            else
-            {
-                m_DidJump = false;
-                m_Rigidbody.linearVelocityY = 0f;
-            }
-        }
-        else
-        {
-            if (m_DidJump)
-                m_Rigidbody.linearVelocityY = 0f;
-            m_DidJump = false;
-        }
-        //m_YVelocity += m_Settings.GravityAdd * Time.fixedDeltaTime;
-
-        m_ri
-        // m_Rigidbody.linearVelocityY += m_Settings.GravityAdd * Time.fixedDeltaTime;
-        m_Rigidbody.AddForce(moveForce);
-    }
-
-    private void GroundCheck()
-    {
-        m_IsGrounded = false;
-        RaycastHit2D hit = Physics2D.Raycast(
-            transform.position,
-            Vector2.down,
-            m_Settings.GroundCheckDistance,
-            m_Settings.GroundMask
-        );
-        if (hit)
-        {
-            m_IsGrounded = true;
+            m_stateMachine.CurrentState.LateUpdate();
         }
     }
 }

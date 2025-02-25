@@ -2,72 +2,82 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[CreateAssetMenu(fileName = "InputReader")]
-public class InputReader : ScriptableObject, InputSystem_Actions.IPlayerActions
+namespace PetesPlatformer
 {
-    public InputSystem_Actions m_PlayerInputActions;
-    public InputAction m_Move;
-    public InputAction m_Jump;
-    public InputAction m_Sprint;
-
-    public static event Action<Vector2> PlayerMoved = delegate { };
-    public static event Action<bool> PlayerJumped = delegate { };
-    public static event Action PlayerSprinted = delegate { };
-
-    public void Initialize()
+    [CreateAssetMenu(fileName = "InputReader")]
+    public class InputReader : ScriptableObject, InputSystem_Actions.IPlayerActions
     {
-        m_PlayerInputActions = new InputSystem_Actions();
-        m_PlayerInputActions.Player.Enable();
-        m_PlayerInputActions.Player.SetCallbacks(this);
+        InputSystem_Actions m_playerInputActions;
+        InputAction m_move;
+        InputAction m_jump;
+        InputAction m_dash;
 
-        m_Move = m_PlayerInputActions.Player.Move;
-        m_Jump = m_PlayerInputActions.Player.Jump;
-        m_Sprint = m_PlayerInputActions.Player.Sprint;
+        public static event Action<Vector2> MoveInput = delegate { };
+        public static event Action JumpActivated = delegate { };
+        public static event Action JumpCancelled = delegate { };
+        public static event Action DashInput = delegate { };
 
-        m_Move.performed += OnMove;
-        m_Move.canceled += OnMove;
-        m_Jump.performed += OnJump;
-        m_Jump.canceled += OnJump;
-        m_Sprint.performed += OnSprint;
-    }
-
-    private void OnDisable()
-    {
-        m_Move.performed -= OnMove;
-        m_Move.canceled -= OnMove;
-        m_Jump.performed -= OnJump;
-        m_Jump.canceled -= OnJump;
-        m_Sprint.performed -= OnSprint;
-    }
-
-    public void OnAttack(InputAction.CallbackContext context) { }
-
-    public void OnCrouch(InputAction.CallbackContext context) { }
-
-    public void OnInteract(InputAction.CallbackContext context) { }
-
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (m_Jump.WasPerformedThisFrame())
+        public void Initialize()
         {
-            PlayerJumped.Invoke(true);
+            m_playerInputActions = new InputSystem_Actions();
+            m_playerInputActions.Player.Enable();
+            m_playerInputActions.Player.SetCallbacks(this);
+
+            m_move = m_playerInputActions.Player.Move;
+            m_jump = m_playerInputActions.Player.Jump;
+            m_dash = m_playerInputActions.Player.Sprint;
+
+            m_move.performed += OnMove;
+            m_move.canceled += OnMove;
+            m_jump.performed += OnJump;
+            m_jump.canceled += OnJump;
+            m_dash.performed += OnSprint;
         }
-        else if (m_Jump.WasReleasedThisFrame())
+
+        private void OnDisable()
         {
-            PlayerJumped.Invoke(false);
+            m_move.performed -= OnMove;
+            m_move.canceled -= OnMove;
+            m_jump.performed -= OnJump;
+            m_jump.canceled -= OnJump;
+            m_dash.performed -= OnSprint;
+        }
+
+        public void OnAttack(InputAction.CallbackContext context) { }
+
+        public void OnCrouch(InputAction.CallbackContext context) { }
+
+        public void OnInteract(InputAction.CallbackContext context) { }
+
+        public void OnJump(InputAction.CallbackContext context)
+        {
+            if (m_jump.WasPerformedThisFrame())
+            {
+                JumpActivated.Invoke();
+            }
+            else if (m_jump.WasReleasedThisFrame())
+            {
+                JumpCancelled.Invoke();
+            }
+        }
+
+        public void OnLook(InputAction.CallbackContext context) { }
+
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            MoveInput.Invoke(context.ReadValue<Vector2>());
+        }
+
+        public void OnNext(InputAction.CallbackContext context) { }
+
+        public void OnPrevious(InputAction.CallbackContext context) { }
+
+        public void OnSprint(InputAction.CallbackContext context)
+        {
+            if (m_dash.WasPerformedThisFrame())
+            {
+                DashInput.Invoke();
+            }
         }
     }
-
-    public void OnLook(InputAction.CallbackContext context) { }
-
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        PlayerMoved.Invoke(context.ReadValue<Vector2>());
-    }
-
-    public void OnNext(InputAction.CallbackContext context) { }
-
-    public void OnPrevious(InputAction.CallbackContext context) { }
-
-    public void OnSprint(InputAction.CallbackContext context) { }
 }
