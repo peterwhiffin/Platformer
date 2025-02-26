@@ -1,19 +1,16 @@
-using System;
-using Unity.IO.LowLevel.Unsafe;
-using UnityEngine;
-
-namespace PetesPlatformer
+﻿namespace PetesPlatformer
 {
-    public class MoveState : State
+    public class WallSlideState : State
     {
-        public MoveState(Player player, StateMachine stateMachine) : base(player, stateMachine)
+        public WallSlideState(Player player, StateMachine stateMachine) : base(player, stateMachine)
         {
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            m_player.Motor.MoveGrounded(Mathf.Sign(m_player.Input.MoveInput.x));
+
+            m_player.Motor.MoveGrounded(m_player.Input.MoveInput.x);
         }
 
         public override void LateUpdate()
@@ -24,9 +21,9 @@ namespace PetesPlatformer
         public override void OnEnter()
         {
             base.OnEnter();
-            m_player.Animator.OnPlayerMove();
-            m_player.Motor.SetYVelocity(0f);
+            m_player.Motor.ApplyWallSlideDrag();
             m_player.Motor.ResetJumps();
+            m_player.Animator.OnPlayerWallSlide();
         }
 
         public override void OnExit()
@@ -37,11 +34,10 @@ namespace PetesPlatformer
         public override void Update()
         {
             base.Update();
+
             m_player.Motor.CheckForGround();
-
-            m_player.Animator.SetSpriteOrientation(m_player.Input.MoveInput.x);
-
-            if (m_player.Input.MoveInput.x == 0)
+            
+            if (m_player.Motor.IsGrounded)
             {
                 m_stateMachine.ChangeState(m_player.IdleState);
             }
@@ -49,7 +45,7 @@ namespace PetesPlatformer
             {
                 m_stateMachine.ChangeState(m_player.JumpState);
             }
-            else if(!m_player.Motor.IsGrounded)
+            else if (m_player.Motor.IsOnWall == 0)
             {
                 m_stateMachine.ChangeState(m_player.FallingState);
             }

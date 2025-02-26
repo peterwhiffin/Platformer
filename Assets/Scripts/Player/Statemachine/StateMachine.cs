@@ -19,7 +19,6 @@ namespace PetesPlatformer
             CurrentState.OnExit();
             CurrentState = newState;
             CurrentState.OnEnter();
-            Debug.Log(CurrentState.ToString());
         }
     }
 }

@@ -4,18 +4,17 @@ namespace PetesPlatformer
 {
     public class PlayerAnimator : MonoBehaviour 
     {
-        [SerializeField] Animator m_animator;
-        [SerializeField] SpriteRenderer m_spriteRenderer;
+        readonly int m_moveHash = Animator.StringToHash("Move");
+        readonly int m_jumpHash = Animator.StringToHash("Jump");
+        readonly int m_idleHash = Animator.StringToHash("Idle");
+        readonly int m_fallingHash = Animator.StringToHash("Falling");
+        readonly int m_wallSlideHash = Animator.StringToHash("WallSlide");
 
-  
-        int m_moveHash = Animator.StringToHash("Move");
-        int m_jumpHash = Animator.StringToHash("Jump");
-        int m_idleHash = Animator.StringToHash("Idle");
-        int m_fallingHash = Animator.StringToHash("Falling");
-        int m_wallSlideHash = Animator.StringToHash("WallSlide");
         int m_currentState = Animator.StringToHash("Idle");
 
-
+        [SerializeField] Animator m_animator;
+        [SerializeField] SpriteRenderer m_spriteRenderer;
+ 
         public void ChangeAnimation(int newState)
         {
             m_animator.SetBool(m_currentState, false);

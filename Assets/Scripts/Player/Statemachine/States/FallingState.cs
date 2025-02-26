@@ -4,18 +4,23 @@ namespace PetesPlatformer
 {
     public class FallingState : State
     {
+        bool m_animationSet = false;
         public FallingState(Player player, StateMachine stateMachine) : base(player, stateMachine)
         {
         }
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            m_player.Motor.MoveInAir(m_player.Input.MoveInput.x);
+      
             m_player.Motor.ApplyGravity();
 
-            if (m_player.Input.MoveInput.x == 0)
+            if (m_player.Input.MoveInput.x != 0)
             {
-                m_player.Motor.ApplyAirDrag();
+                m_player.Motor.MoveInAir(m_player.Input.MoveInput.x);
+            }
+            else
+            {
+                m_player.Motor.ApplyAirDrag();              
             }
         }
         public override void LateUpdate()
@@ -25,7 +30,9 @@ namespace PetesPlatformer
         public override void OnEnter()
         {
             base.OnEnter();
+
             m_player.Motor.OnFalling();
+            m_animationSet = false;
         }
         public override void OnExit()
         {
@@ -35,24 +42,23 @@ namespace PetesPlatformer
         {
             base.Update();
             m_player.Motor.CheckForGround();
-            
+            m_player.Animator.SetSpriteOrientation(m_player.Input.MoveInput.x);
 
-            if(m_player.Motor.Velocity.y < 0)
+            if (!m_animationSet && m_player.Motor.Velocity.y < 0)
             {
                 m_player.Animator.OnPlayerFalling();
+                m_animationSet = true;
             }
-
-            m_player.Animator.SetSpriteOrientation(m_player.Input.MoveInput.x);
 
             if (m_player.Motor.IsGrounded)
             {
-                if (m_player.Input.MoveInput.x != 0)
+                if (m_player.Input.MoveInput.x == 0)
                 {
-                    m_stateMachine.ChangeState(m_player.MoveState);
+                    m_stateMachine.ChangeState(m_player.IdleState);
                 }
                 else
                 {
-                    m_stateMachine.ChangeState(m_player.IdleState);
+                    m_stateMachine.ChangeState(m_player.MoveState);
                 }
             }
             else if(m_player.Motor.IsOnWall != 0)

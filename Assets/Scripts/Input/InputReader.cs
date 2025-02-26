@@ -29,8 +29,10 @@ namespace PetesPlatformer
 
             m_move.performed += OnMove;
             m_move.canceled += OnMove;
+
             m_jump.performed += OnJump;
             m_jump.canceled += OnJump;
+
             m_dash.performed += OnSprint;
         }
 
@@ -38,8 +40,10 @@ namespace PetesPlatformer
         {
             m_move.performed -= OnMove;
             m_move.canceled -= OnMove;
+
             m_jump.performed -= OnJump;
             m_jump.canceled -= OnJump;
+
             m_dash.performed -= OnSprint;
         }
 

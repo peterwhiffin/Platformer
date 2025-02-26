@@ -13,10 +13,7 @@ namespace PetesPlatformer
         {
             base.OnEnter();
             m_player.Animator.OnPlayerIdle();
-            m_player.Motor.MoveGrounded(0f);
-            m_player.Motor.SetXVelocity(0f);
-            m_player.Motor.SetYVelocity(0f);
-            m_player.Motor.ResetJumps();
+            m_player.Motor.SetIdle();
         }
 
         public override void OnExit()
