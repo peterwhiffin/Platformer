@@ -12,6 +12,15 @@ namespace PetesPlatformer
 
         public override void FixedUpdate()
         {
+            m_player.Motor.ApplyGravity();
+
+            if(m_wallJumpTimer >= m_player.Motor.Settings.WallJumpMovementCooldown)
+            {
+                if(m_player.Input.MoveInput.x != 0)
+                {
+                    m_player.Motor.MoveInAir(m_player.Input.MoveInput.x);
+                }
+            }
         }
 
         public override void LateUpdate()
@@ -33,7 +42,7 @@ namespace PetesPlatformer
         public override void Update()
         {
 
-            if (m_wallJumpTimer >= m_player.Motor.Settings.WallJumpMovementCooldown)
+            if (m_player.Input.JumpCancelled || m_player.Motor.Velocity.y <= 0)
             {
                 m_stateMachine.ChangeState(m_player.FallingState);
             }

@@ -24,7 +24,7 @@ namespace PetesPlatformer
         {
             float acceleration = Mathf.Sqrt(-2f * m_settings.Gravity * distance);
             Vector2 velocity = acceleration * direction;
-            m_RigidBody.linearVelocity += velocity;
+            m_RigidBody.linearVelocity = velocity;
         }
 
         public bool CanJump()
@@ -60,7 +60,7 @@ namespace PetesPlatformer
         {
             float verticalJumpVelocity = Mathf.Sqrt(-2f * m_settings.Gravity * m_settings.WallJumpHeight);
             m_RigidBody.linearVelocityY = verticalJumpVelocity;
-            m_RigidBody.linearVelocityX = -IsOnWall * m_settings.WallJumpHorizontalSpeed;
+            m_RigidBody.linearVelocityX = IsOnWall * m_settings.WallJumpHorizontalSpeed;
             m_lastJumpTime = Time.time;
         }
 
