@@ -4,8 +4,8 @@ namespace PetesPlatformer
 {
     public class JumpState : State
     {
-        bool m_hasLeftGround = false;
-
+        private bool m_hasLeftGround = false;
+        private float m_movementCooldownTimer = 0f;
         public JumpState(Player player, StateMachine stateMachine) : base(player, stateMachine)
         {          
         }
@@ -13,17 +13,9 @@ namespace PetesPlatformer
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            
-            m_player.Motor.ApplyGravity();
 
-            if (m_player.Input.MoveInput.x != 0)
-            {
-                m_player.Motor.MoveInAir(m_player.Input.MoveInput.x);                
-            }
-            else
-            {
-                m_player.Motor.ApplyAirDrag();
-            }
+            m_player.Motor.ApplyGravity();
+            m_player.Motor.MoveInAir(m_player.Input.MoveInput.x);
         }
 
         public override void LateUpdate()
@@ -34,10 +26,11 @@ namespace PetesPlatformer
         public override void OnEnter()
         {
             base.OnEnter();
-            m_player.Motor.Jump();
+            m_player.Motor.JumpFromGround();
             m_player.Animator.OnPlayerJump();
             m_player.Input.ConsumeJumpInput();                 
             m_hasLeftGround = false;
+            m_movementCooldownTimer = 0f;
         }
 
         public override void OnExit()
@@ -76,7 +69,10 @@ namespace PetesPlatformer
             }
             else if (m_player.Motor.IsOnWall != 0)
             {
-                m_stateMachine.ChangeState(m_player.WallSlideState);
+                if(m_player.Input.MoveInput.x == m_player.Motor.IsOnWall)
+                {
+                    m_stateMachine.ChangeState(m_player.WallSlideState);
+                }
             }
             else if (m_player.Input.JumpCancelled || m_player.Motor.Velocity.y <= 0)
             {

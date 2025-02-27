@@ -1,49 +1,67 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.EventSystems;
 namespace PetesPlatformer
 {
-    public class PlayerMotor : MonoBehaviour
+
+    public class PlayerMotor : MonoBehaviour, IMovable
     {
-        [SerializeField] Rigidbody2D m_RigidBody;
-        [SerializeField] PlayerMovementSettings m_settings;
-        [SerializeField] Transform m_groundCheckPosition;
-        [SerializeField] Transform m_wallCheckPosition;
+        private float m_moveCooldownTimer = 0f;
+        private float m_lastJumpTime = 0f;
+
+        [SerializeField] private Rigidbody2D m_RigidBody;
+        [SerializeField] private PlayerMovementSettings m_settings;
+        [SerializeField] private Transform m_groundCheckPosition;
+        [SerializeField] private Transform m_wallCheckPosition;
 
         public bool IsGrounded { get; private set; }
         public int IsOnWall { get; private set; }
         public int JumpsRemaining { get; private set; }
         public Vector2 Velocity { get { return m_RigidBody.linearVelocity; } }
+        public PlayerMovementSettings Settings { get { return m_settings; } }
+
+        public void Move(Vector2 direction, float distance)
+        {
+            float acceleration = Mathf.Sqrt(-2f * m_settings.Gravity * distance);
+            Vector2 velocity = acceleration * direction;
+            m_RigidBody.linearVelocity += velocity;
+        }
+
+        public bool CanJump()
+        {
+            bool canJump = false;
+
+            if(Time.time - m_lastJumpTime > m_settings.JumpInterval)
+            {
+                canJump = true;
+            }
+
+            return canJump;
+        }
 
         public void MoveGrounded(float moveDirection)
         {
-            float targetXVelocity = m_RigidBody.linearVelocityX + moveDirection * m_settings.GroundAcceleration * Time.fixedDeltaTime;
-            targetXVelocity = Mathf.Clamp(targetXVelocity, -m_settings.MaxMoveSpeed, m_settings.MaxMoveSpeed);
-            m_RigidBody.linearVelocity = new Vector2(targetXVelocity, m_RigidBody.linearVelocityY);
+            m_RigidBody.linearVelocityX = moveDirection * m_settings.GroundSpeed;
         }
 
         public void MoveInAir(float moveDirection)
         {
-            float targetXVelocity = m_RigidBody.linearVelocityX + moveDirection * m_settings.AirAcceleration * Time.fixedDeltaTime;
-            targetXVelocity = Mathf.Clamp(targetXVelocity, -m_settings.MaxMoveSpeed, m_settings.MaxMoveSpeed);
-            m_RigidBody.linearVelocityX = targetXVelocity;
-
-            if (IsOnWall == 0 && Mathf.Sign(m_RigidBody.linearVelocityX) != Mathf.Sign(moveDirection))
-            {
-                m_RigidBody.linearVelocityX = 0f;
-            }
+            m_RigidBody.linearVelocityX = moveDirection * m_settings.AirSpeed;
         }
 
-        public void ApplyAirDrag()
+        public void JumpFromGround()
         {
-            float currentXVelocity = Mathf.Abs(m_RigidBody.linearVelocityX);
-            currentXVelocity = Mathf.Clamp(currentXVelocity - m_settings.AirDrag * Time.fixedDeltaTime, 0, m_settings.MaxMoveSpeed);
-            m_RigidBody.linearVelocityX = Mathf.Sign(m_RigidBody.linearVelocityX) * currentXVelocity;
+            float verticalJumpVelocity = Mathf.Sqrt(-2f * m_settings.Gravity * m_settings.JumpHeight);
+            m_RigidBody.linearVelocityY = verticalJumpVelocity;
+            m_lastJumpTime = Time.time;
         }
 
-        public void Jump()
+        public void JumpFromWall()
         {
-            float jumpVelocity = Mathf.Sqrt(-2f * m_settings.Gravity * m_settings.JumpHeight);
-            m_RigidBody.linearVelocity += new Vector2(jumpVelocity * -IsOnWall, jumpVelocity);
+            float verticalJumpVelocity = Mathf.Sqrt(-2f * m_settings.Gravity * m_settings.WallJumpHeight);
+            m_RigidBody.linearVelocityY = verticalJumpVelocity;
+            m_RigidBody.linearVelocityX = -IsOnWall * m_settings.WallJumpHorizontalSpeed;
+            m_lastJumpTime = Time.time;
         }
 
         public void OnEndJump()

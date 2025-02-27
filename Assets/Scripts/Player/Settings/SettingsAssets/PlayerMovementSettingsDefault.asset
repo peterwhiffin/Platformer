@@ -13,16 +13,21 @@ MonoBehaviour:
   m_Name: PlayerMovementSettingsDefault
   m_EditorClassIdentifier: 
   <MaxMoveSpeed>k__BackingField: 6.72
-  <GroundAcceleration>k__BackingField: 64.6
-  <AirAcceleration>k__BackingField: 13.7
-  <AirDrag>k__BackingField: 9.9
+  <GroundSpeed>k__BackingField: 4.04
+  <AirSpeed>k__BackingField: 3.35
+  <AirDrag>k__BackingField: 19.58
   <JumpHeight>k__BackingField: 3.13
+  <JumpInterval>k__BackingField: 0
+  <WallJumpHeight>k__BackingField: 3
+  <WallMovementThreshold>k__BackingField: 0.12
   <VariableJumpVelocityMultiplier>k__BackingField: 0.43
   <WallSlideSpeed>k__BackingField: 1.92
   <Gravity>k__BackingField: -23.6
   <GroundCheckRadius>k__BackingField: 0.2
   <WallCheckRadius>k__BackingField: 0.2
   <WallCheckOffset>k__BackingField: 0.12
+  <WallJumpMovementCooldown>k__BackingField: 0.15
+  <JumpPadMovementCooldown>k__BackingField: 0
   <GroundMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 64

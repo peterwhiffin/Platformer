@@ -30,7 +30,20 @@ namespace PetesPlatformer
 
         private void OnMoveInput(Vector2 rawMove)
         {
-            MoveInput = rawMove.normalized;
+            float x = rawMove.x;
+            float y = rawMove.y;
+
+            if(x != 0)
+            {
+                x = Mathf.Sign(x);
+            }
+
+            if(y != 0)
+            {
+                y = Mathf.Sign(y);
+            }
+
+            MoveInput = new Vector2(x, y);
         }
 
         private void OnJumpInput()
