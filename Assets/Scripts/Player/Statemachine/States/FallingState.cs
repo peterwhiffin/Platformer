@@ -10,29 +10,22 @@ namespace PetesPlatformer
         }
         public override void FixedUpdate()
         {
-            base.FixedUpdate();
-
             m_player.Motor.ApplyGravity();
             m_player.Motor.MoveInAir(m_player.Input.MoveInput.x);
         }
         public override void LateUpdate()
         {
-            base.LateUpdate();
         }
         public override void OnEnter()
         {
-            base.OnEnter();
-
             m_player.Motor.OnFalling();
             m_animationSet = false;
         }
         public override void OnExit()
         {
-            base.OnExit();
         }
         public override void Update()
         {
-            base.Update();
             m_player.Motor.CheckForGround();
             m_player.Animator.SetSpriteOrientation(m_player.Input.MoveInput.x);
 

@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d7759eb7abafad4392808416719b405, type: 3}
   m_Name: PlayerMovementSettingsDefault
   m_EditorClassIdentifier: 
-  <MaxMoveSpeed>k__BackingField: 6.72
   <GroundSpeed>k__BackingField: 7.28
   <AirSpeed>k__BackingField: 7.28
   <JumpHeight>k__BackingField: 3.13
   <JumpInterval>k__BackingField: 0
-  <WallJumpHeight>k__BackingField: 2.93
-  <WallJumpHorizontalSpeed>k__BackingField: -5.25
+  <WallJumpHeight>k__BackingField: 2.1
+  <WallJumpHorizontalSpeed>k__BackingField: -6.99
   <WallMovementThreshold>k__BackingField: 0.18
   <VariableJumpVelocityMultiplier>k__BackingField: 0.43
   <WallSlideSpeed>k__BackingField: 1.92
   <Gravity>k__BackingField: -23.6
+  <TerminalVelocity>k__BackingField: -52.84
   <GroundCheckRadius>k__BackingField: 0.2
   <WallCheckRadius>k__BackingField: 0.2
   <WallCheckOffset>k__BackingField: 0.12
-  <WallJumpMovementCooldown>k__BackingField: 0.16
+  <WallJumpMovementCooldown>k__BackingField: 0.13
   <GroundMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 64

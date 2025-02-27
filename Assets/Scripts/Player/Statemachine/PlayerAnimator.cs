@@ -1,21 +1,23 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 
 namespace PetesPlatformer
 {
-    public class PlayerAnimator : MonoBehaviour 
+    public class PlayerAnimator : MonoBehaviour
     {
         readonly int m_moveHash = Animator.StringToHash("Move");
         readonly int m_jumpHash = Animator.StringToHash("Jump");
         readonly int m_idleHash = Animator.StringToHash("Idle");
         readonly int m_fallingHash = Animator.StringToHash("Falling");
         readonly int m_wallSlideHash = Animator.StringToHash("WallSlide");
+        readonly int m_DeathHash = Animator.StringToHash("Death");
 
         int m_currentState = Animator.StringToHash("Idle");
 
         [SerializeField] Animator m_animator;
         [SerializeField] SpriteRenderer m_spriteRenderer;
- 
-        public void ChangeAnimation(int newState)
+
+        private void ChangeAnimation(int newState)
         {
             m_animator.SetBool(m_currentState, false);
             m_animator.SetBool(newState, true);
@@ -45,6 +47,11 @@ namespace PetesPlatformer
         public void OnPlayerWallSlide()
         {
             ChangeAnimation(m_wallSlideHash);
+        }
+
+        public void OnPlayerDied()
+        {
+            ChangeAnimation(m_DeathHash);
         }
 
         public void SetSpriteOrientation(float moveDirection)

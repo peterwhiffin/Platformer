@@ -409,6 +409,17 @@
                 },
                 {
                     "name": "",
+                    "id": "3ef4ecc9-e5f0-444f-ad89-7d3f6887f7bb",
+                    "path": "<HID::Core (Plus) Wired Controller>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1534dc16-a6aa-499d-9c3a-22b47347b52a",
                     "path": "<Keyboard>/1",
                     "interactions": "",

@@ -86,12 +86,12 @@ namespace PetesPlatformer
 
         public void ApplyGravity()
         {
-            m_RigidBody.linearVelocityY += m_settings.Gravity * Time.fixedDeltaTime;
+            m_RigidBody.linearVelocityY = Mathf.Max(m_RigidBody.linearVelocityY + m_settings.Gravity * Time.fixedDeltaTime, m_settings.TerminalVelocity);
         }
 
         public void OnFalling()
         {
-            JumpsRemaining = Mathf.Clamp(JumpsRemaining - 1, 0, 2);
+            JumpsRemaining = Mathf.Max(JumpsRemaining - 1, 0);
         }
 
         public void SetIdle()

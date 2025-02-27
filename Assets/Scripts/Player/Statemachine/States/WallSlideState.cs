@@ -27,6 +27,7 @@ namespace PetesPlatformer
             m_player.Motor.ApplyWallSlideDrag();
             m_player.Motor.ResetJumps();
             m_player.Animator.OnPlayerWallSlide();
+            m_player.Animator.SetSpriteOrientation(m_player.Motor.IsOnWall);
             m_movementHeldTime = 0f;
         }
 
