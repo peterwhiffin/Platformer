@@ -13,7 +13,7 @@ namespace PetesPlatformer
 
         private void Start()
         {
-            m_InputReader.Initialize();
+            //m_InputReader.Initialize();
             InputReader.MoveInput += OnMoveInput;
             InputReader.JumpActivated += OnJumpInput;
             InputReader.JumpCancelled += OnJumpCancelled;

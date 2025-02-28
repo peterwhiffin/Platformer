@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -36,15 +37,37 @@ namespace PetesPlatformer
             m_dash.performed += OnSprint;
         }
 
+        private void OnEnable()
+        {
+            if (m_playerInputActions != null)
+            {
+                m_playerInputActions.Player.Enable();
+
+                m_move.performed += OnMove;
+                m_move.canceled += OnMove;
+
+                m_jump.performed += OnJump;
+                m_jump.canceled += OnJump;
+
+                m_dash.performed += OnSprint;
+            }
+        }
+
         private void OnDisable()
         {
-            m_move.performed -= OnMove;
-            m_move.canceled -= OnMove;
+            
 
-            m_jump.performed -= OnJump;
-            m_jump.canceled -= OnJump;
+            if(m_playerInputActions != null)
+            {
+                m_move.performed -= OnMove;
+                m_move.canceled -= OnMove;
 
-            m_dash.performed -= OnSprint;
+                m_jump.performed -= OnJump;
+                m_jump.canceled -= OnJump;
+
+                m_dash.performed -= OnSprint;
+                m_playerInputActions.Player.Disable();
+            }
         }
 
         public void OnAttack(InputAction.CallbackContext context) { }

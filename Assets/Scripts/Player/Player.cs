@@ -37,12 +37,12 @@ namespace PetesPlatformer
 
         private void Start()
         {
-            Life.Died += OnDeath;
+            //Life.Died += OnDeath;
         }
 
         private void OnDestroy()
         {
-            Life.Died -= OnDeath;
+            //Life.Died -= OnDeath;
         }
 
         private void Update()

@@ -27,6 +27,7 @@ namespace PetesPlatformer
         private void Start()
         {
             m_inputReader.Initialize();
+
             if(Directory.Exists(Application.persistentDataPath))
             {
                 string savePath = Application.persistentDataPath;
