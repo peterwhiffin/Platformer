@@ -749,6 +749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f048158a5220ee74688bcd4bff5579ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_inputReader: {fileID: 11400000, guid: 724eb749629fdcf46b435b5c861b8855, type: 2}
   m_MainMenu: {fileID: 868516267}
   m_SaveSlotMenu: {fileID: 1432468024}
   m_defaultSaveData: {fileID: 11400000, guid: 10cab073d6b12af41b571c4b032c1108, type: 2}

@@ -14,7 +14,8 @@ namespace PetesPlatformer
         private UISaveSlot m_selectedSaveSlot;
         private const string m_baseFileName = "saveslot";
         private const string m_fileExtension = ".sav";
-
+        
+        [SerializeField] private InputReader m_inputReader;        
         [SerializeField] private GameObject m_MainMenu;
         [SerializeField] private GameObject m_SaveSlotMenu;
         [SerializeField] private GameSave m_defaultSaveData;
@@ -25,6 +26,7 @@ namespace PetesPlatformer
 
         private void Start()
         {
+            m_inputReader.Initialize();
             if(Directory.Exists(Application.persistentDataPath))
             {
                 string savePath = Application.persistentDataPath;
@@ -111,7 +113,9 @@ namespace PetesPlatformer
                 newSave.m_saveSlot = 0;
                 newSave.m_fruit = 0;
                 newSave.m_lives = 1;
+                newSave.m_currentLevel = 0;
                 newSave.m_unlockedLevels = new List<int>();
+                newSave.m_unlockedLevels.Add(0);
 
                 if(m_saveSlots.Count != 0)
                 {
@@ -134,7 +138,7 @@ namespace PetesPlatformer
             }
             catch (System.Exception e)
             {
-                Debug.LogError(e.Message);
+                Debug.LogError("big time error town: " + e.Message);
             }
         }
 

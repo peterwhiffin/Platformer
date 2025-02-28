@@ -13,5 +13,6 @@ namespace PetesPlatformer
         public int m_lives;
         public int m_fruit;
         public List<int> m_unlockedLevels;
+        public int m_currentLevel;
     }
 }
