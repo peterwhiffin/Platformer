@@ -11,10 +11,4 @@ public class Overworld : MonoBehaviour
         Debug.Log("lives: " + m_activeSave.m_lives.ToString());
         Debug.Log("fruit: " + m_activeSave.m_fruit.ToString());
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
