@@ -2,11 +2,11 @@
 
 namespace PetesPlatformer
 {
-    public class WallSlideState : State
+    public class PlayerWallSlideState : PlayerState
     {
         private float m_movementHeldTime = 0f;
 
-        public WallSlideState(Player player, StateMachine stateMachine) : base(player, stateMachine)
+        public PlayerWallSlideState(StateMachine stateMachine, Player player) : base(stateMachine, player)
         {
         }
 

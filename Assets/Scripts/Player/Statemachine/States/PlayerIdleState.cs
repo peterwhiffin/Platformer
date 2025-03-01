@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace PetesPlatformer
 {
-    public class IdleState : State
+    public class PlayerIdleState : PlayerState
     {
-        public IdleState(Player player, StateMachine stateMachine) : base(player, stateMachine)
+        public PlayerIdleState(StateMachine stateMachine, Player player) : base(stateMachine, player)
         {
         }
 

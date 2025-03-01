@@ -39,14 +39,14 @@ namespace PetesPlatformer
                 }
             }
 
-            m_sceneRoot.MainCamera.transform.position = m_cameraPosition.position;
-            m_sceneRoot.GamePaused += OnGamePaused;
+            Camera.main.transform.position = m_cameraPosition.position;
+            SceneRoot.GamePaused += OnGamePaused;
             SubscribeToInput();
         }
 
         private void OnDestroy()
         {
-            m_sceneRoot.GamePaused -= OnGamePaused;
+            SceneRoot.GamePaused -= OnGamePaused;
             UnsubscribeFromInput();
         }
 

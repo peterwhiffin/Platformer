@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace PetesPlatformer
@@ -19,7 +17,6 @@ namespace PetesPlatformer
             CurrentState.OnExit();
             CurrentState = newState;
             CurrentState.OnEnter();
-      
         }
     }
 }

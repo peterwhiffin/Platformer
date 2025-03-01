@@ -24,7 +24,7 @@ MonoBehaviour:
   <Gravity>k__BackingField: -23.6
   <TerminalVelocity>k__BackingField: -52.84
   <GroundCheckRadius>k__BackingField: 0.2
-  <WallCheckRadius>k__BackingField: 0.2
+  <WallCheckRadius>k__BackingField: 0.3
   <WallCheckOffset>k__BackingField: 0.12
   <WallJumpMovementCooldown>k__BackingField: 0.13
   <GroundMask>k__BackingField:

@@ -30,7 +30,6 @@ namespace PetesPlatformer
 
         private void Start()
         {
-            m_inputReader.Initialize();
             m_fadeRoutine = StartCoroutine(FadeRoutine(0f, 0f, 0f, m_splashScreen));
             AsyncOperation op = SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Additive);     
             StartCoroutine(WaitForSceneLoad(op, "MainMenu", m_splashScreen.gameObject));         

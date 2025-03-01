@@ -2,12 +2,14 @@
 
 namespace PetesPlatformer
 {
-    public class FallingState : State
+    public class PlayerFallingState : PlayerState
     {
         bool m_animationSet = false;
-        public FallingState(Player player, StateMachine stateMachine) : base(player, stateMachine)
+
+        public PlayerFallingState(StateMachine stateMachine, Player player) : base(stateMachine, player)
         {
         }
+
         public override void FixedUpdate()
         {
             m_player.Motor.ApplyGravity();

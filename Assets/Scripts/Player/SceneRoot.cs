@@ -11,14 +11,12 @@ namespace PetesPlatformer
 
         [SerializeField] private bool m_isPausable = true;
 
-        public event Action<bool> GamePaused = delegate { };
-        public Camera MainCamera { get; private set; }
+        public static event Action<bool> GamePaused = delegate { };
         public SceneLoader SceneLoader {  get { return m_sceneLoader; } }
 
         public void Initialize(SceneLoader sceneLoader)
         {
-            m_sceneLoader = sceneLoader;           
-            MainCamera = m_sceneLoader.MainCamera;            
+            m_sceneLoader = sceneLoader;                      
             gameObject.SetActive(true);
         }
 

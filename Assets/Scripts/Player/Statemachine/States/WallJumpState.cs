@@ -2,11 +2,11 @@
 
 namespace PetesPlatformer
 {
-    public class WallJumpState : State
+    public class PlayerWallJumpState : PlayerState
     {
         private float m_wallJumpTimer = 0f;
 
-        public WallJumpState(Player player, StateMachine stateMachine) : base(player, stateMachine)
+        public PlayerWallJumpState(StateMachine stateMachine, Player player) : base(stateMachine, player)
         {
         }
 

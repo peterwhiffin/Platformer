@@ -1,8 +1,8 @@
 ﻿namespace PetesPlatformer
 {
-    public class DeathState : State
+    public class PlayerDeathState : PlayerState
     {
-        public DeathState(Player player, StateMachine stateMachine) : base(player, stateMachine)
+        public PlayerDeathState(StateMachine stateMachine, Player player) : base(stateMachine, player)
         {
         }
 

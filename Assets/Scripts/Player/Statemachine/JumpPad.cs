@@ -40,7 +40,7 @@ namespace PetesPlatformer
 
             if (collision.gameObject.TryGetComponent(out IMovable movable))
             {
-                movable.Move(transform.up, m_jumpHeight);
+                movable.ExternalMove(transform.up, m_jumpHeight);
                 m_animator.SetTrigger("Activate");
                 m_canTrigger = false;
             }

@@ -10,7 +10,8 @@ namespace PetesPlatformer
         readonly int m_idleHash = Animator.StringToHash("Idle");
         readonly int m_fallingHash = Animator.StringToHash("Falling");
         readonly int m_wallSlideHash = Animator.StringToHash("WallSlide");
-        readonly int m_DeathHash = Animator.StringToHash("Death");
+        readonly int m_diedHash = Animator.StringToHash("Died");
+        readonly int m_damagedHash = Animator.StringToHash("Damaged");
 
         int m_currentState = Animator.StringToHash("Idle");
 
@@ -51,7 +52,12 @@ namespace PetesPlatformer
 
         public void OnPlayerDied()
         {
-            ChangeAnimation(m_DeathHash);
+            ChangeAnimation(m_diedHash);
+        }
+
+        public void OnPlayerDamaged()
+        {
+            m_animator.Play(m_damagedHash, 0, 0f);
         }
 
         public void SetSpriteOrientation(float moveDirection)

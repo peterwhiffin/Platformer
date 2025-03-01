@@ -2,12 +2,13 @@ using Unity.IO.LowLevel.Unsafe;
 
 namespace PetesPlatformer
 {
-    public class JumpState : State
+    public class PlayerJumpState : PlayerState
     {
         private bool m_hasLeftGround = false;
         private float m_movementCooldownTimer = 0f;
-        public JumpState(Player player, StateMachine stateMachine) : base(player, stateMachine)
-        {          
+
+        public PlayerJumpState(StateMachine stateMachine, Player player) : base(stateMachine, player)
+        {
         }
 
         public override void FixedUpdate()

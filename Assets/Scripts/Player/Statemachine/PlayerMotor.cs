@@ -19,7 +19,7 @@ namespace PetesPlatformer
         public Vector2 Velocity { get { return m_RigidBody.linearVelocity; } }
         public PlayerMovementSettings Settings { get { return m_settings; } }
 
-        public void Move(Vector2 direction, float distance)
+        public void ExternalMove(Vector2 direction, float distance)
         {
             float acceleration = Mathf.Sqrt(-2f * m_settings.Gravity * distance);
             Vector2 velocity = acceleration * direction;
@@ -110,7 +110,19 @@ namespace PetesPlatformer
             }
             else
             {
-                if(Physics2D.OverlapCircle(m_wallCheckPosition.position + new Vector3(m_settings.WallCheckOffset, 0f, 0f), m_settings.WallCheckRadius, m_settings.GroundMask))
+
+
+                //if (Physics2D.OverlapCapsule(transform.position + new Vector3(.5f, 0f, 0f), new Vector2(.59f, .747f), CapsuleDirection2D.Vertical, 0f, m_settings.GroundMask))
+                //{
+                //    Debug.Log("--------on right wall");
+                //    IsOnWall = 1;
+                //}
+                //else if (Physics2D.OverlapCapsule(transform.position - new Vector3(.01f, 0f, 0f), new Vector2(.59f, .747f), CapsuleDirection2D.Vertical, 0f, m_settings.GroundMask))
+                //{
+                //    Debug.Log("----------on left wall");
+                //    IsOnWall = -1;
+                //}
+                if (Physics2D.OverlapCircle(m_wallCheckPosition.position + new Vector3(m_settings.WallCheckOffset, 0f, 0f), m_settings.WallCheckRadius, m_settings.GroundMask))
                 {
                     IsOnWall = 1;
                 }

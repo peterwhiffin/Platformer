@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System;
 
 namespace PetesPlatformer
 {
@@ -12,24 +13,19 @@ namespace PetesPlatformer
         [SerializeField] private Player m_player;
         [SerializeField] private FinishLine m_finishLine;
         [SerializeField] private List<LevelInfo> m_levelsToUnlock;
+        
 
         private void Start()
         {
             SceneManager.SetActiveScene(gameObject.scene);
             
             m_finishLine.FinishReached += OnFinishLineReached;
-            m_sceneRoot.GamePaused += OnGamePaused;
+            
         }
 
         private void OnDestroy()
         {
             m_finishLine.FinishReached -= OnFinishLineReached;
-            m_sceneRoot.GamePaused -= OnGamePaused;
-        }
-
-        private void OnGamePaused(bool isPaused)
-        {
-            m_player.OnGamePaused(isPaused);
         }
 
         private void OnFinishLineReached()
@@ -42,6 +38,7 @@ namespace PetesPlatformer
                 }
             }
 
+            m_finishLine.FinishReached -= OnFinishLineReached;
             SaveLoadHelper.SaveToSlot(m_activeSave);
             m_sceneRoot.SceneLoader.LoadScene("Overworld");
         }
