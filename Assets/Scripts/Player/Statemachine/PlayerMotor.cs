@@ -6,7 +6,6 @@ namespace PetesPlatformer
 
     public class PlayerMotor : MonoBehaviour, IMovable
     {
-        private float m_moveCooldownTimer = 0f;
         private float m_lastJumpTime = 0f;
 
         [SerializeField] private Rigidbody2D m_RigidBody;

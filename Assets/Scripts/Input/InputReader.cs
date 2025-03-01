@@ -12,11 +12,13 @@ namespace PetesPlatformer
         InputAction m_move;
         InputAction m_jump;
         InputAction m_dash;
+        InputAction m_menu;
 
         public static event Action<Vector2> MoveInput = delegate { };
         public static event Action JumpActivated = delegate { };
         public static event Action JumpCancelled = delegate { };
         public static event Action DashInput = delegate { };
+        public static event Action MenuInput = delegate { };
 
         public void Initialize()
         {
@@ -27,6 +29,7 @@ namespace PetesPlatformer
             m_move = m_playerInputActions.Player.Move;
             m_jump = m_playerInputActions.Player.Jump;
             m_dash = m_playerInputActions.Player.Sprint;
+            m_menu = m_playerInputActions.Player.Menu;
 
             m_move.performed += OnMove;
             m_move.canceled += OnMove;
@@ -35,28 +38,12 @@ namespace PetesPlatformer
             m_jump.canceled += OnJump;
 
             m_dash.performed += OnSprint;
+
+            m_menu.performed += OnMenu;
         }
 
-        private void OnEnable()
+        private void OnDestroy()
         {
-            if (m_playerInputActions != null)
-            {
-                m_playerInputActions.Player.Enable();
-
-                m_move.performed += OnMove;
-                m_move.canceled += OnMove;
-
-                m_jump.performed += OnJump;
-                m_jump.canceled += OnJump;
-
-                m_dash.performed += OnSprint;
-            }
-        }
-
-        private void OnDisable()
-        {
-            
-
             if(m_playerInputActions != null)
             {
                 m_move.performed -= OnMove;
@@ -66,6 +53,9 @@ namespace PetesPlatformer
                 m_jump.canceled -= OnJump;
 
                 m_dash.performed -= OnSprint;
+
+                m_menu.performed -= OnMenu;
+
                 m_playerInputActions.Player.Disable();
             }
         }
@@ -104,6 +94,15 @@ namespace PetesPlatformer
             if (m_dash.WasPerformedThisFrame())
             {
                 DashInput.Invoke();
+            }
+        }
+
+        public void OnMenu(InputAction.CallbackContext context)
+        {
+            if (m_menu.WasPerformedThisFrame())
+            {
+                Debug.Log("menu in reader");
+                MenuInput.Invoke();
             }
         }
     }

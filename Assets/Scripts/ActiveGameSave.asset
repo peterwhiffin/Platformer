@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ActiveGameSave
   m_EditorClassIdentifier: 
   m_saveSlot: 0
-  m_lives: 0
+  m_lives: 1
   m_fruit: 0
-  m_unlockedLevels: 
+  m_unlockedLevels: 000000000100000002000000
+  m_currentLevel: 0

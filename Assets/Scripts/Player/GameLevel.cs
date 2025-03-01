@@ -7,18 +7,29 @@ namespace PetesPlatformer
 
     public class GameLevel : MonoBehaviour
     {
+        [SerializeField] private SceneRoot m_sceneRoot;
         [SerializeField] private GameSave m_activeSave;
+        [SerializeField] private Player m_player;
         [SerializeField] private FinishLine m_finishLine;
         [SerializeField] private List<LevelInfo> m_levelsToUnlock;
 
         private void Start()
         {
+            SceneManager.SetActiveScene(gameObject.scene);
+            
             m_finishLine.FinishReached += OnFinishLineReached;
+            m_sceneRoot.GamePaused += OnGamePaused;
         }
 
         private void OnDestroy()
         {
             m_finishLine.FinishReached -= OnFinishLineReached;
+            m_sceneRoot.GamePaused -= OnGamePaused;
+        }
+
+        private void OnGamePaused(bool isPaused)
+        {
+            m_player.OnGamePaused(isPaused);
         }
 
         private void OnFinishLineReached()
@@ -31,7 +42,8 @@ namespace PetesPlatformer
                 }
             }
 
-            SceneManager.LoadScene("Overworld", LoadSceneMode.Single);
+            SaveLoadHelper.SaveToSlot(m_activeSave);
+            m_sceneRoot.SceneLoader.LoadScene("Overworld");
         }
     }
 }

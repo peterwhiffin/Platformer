@@ -1,4 +1,5 @@
 using Unity.IO.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace PetesPlatformer
@@ -6,6 +7,7 @@ namespace PetesPlatformer
     public class Player : MonoBehaviour
     {
         private StateMachine m_stateMachine;
+        private bool m_isPaused = false;
 
         [field: SerializeField] public Life Life { get; private set; }
         [field: SerializeField] public PlayerMotor Motor { get; private set; }
@@ -45,18 +47,38 @@ namespace PetesPlatformer
             //Life.Died -= OnDeath;
         }
 
+        public void OnGamePaused(bool isPaused)
+        {
+            m_isPaused = isPaused;
+        }
+
         private void Update()
         {
+            if (m_isPaused)
+            {
+                return;
+            }
+
             m_stateMachine.CurrentState.Update();
         }
 
         private void FixedUpdate()
         {
+            if (m_isPaused)
+            {
+                return;
+            }
+
             m_stateMachine.CurrentState.FixedUpdate();
         }
 
         private void LateUpdate()
         {
+            if (m_isPaused)
+            {
+                return;
+            }
+
             m_stateMachine.CurrentState.LateUpdate();
         }
 

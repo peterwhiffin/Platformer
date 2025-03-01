@@ -4,8 +4,6 @@ namespace PetesPlatformer
 {
     public class PlayerInput : MonoBehaviour
     {
-        [SerializeField] InputReader m_InputReader;
-
         public Vector2 MoveInput { get; private set; }
         public bool JumpActivated { get; private set; }
         public bool JumpCancelled { get; private set; }
@@ -13,7 +11,6 @@ namespace PetesPlatformer
 
         private void Start()
         {
-            //m_InputReader.Initialize();
             InputReader.MoveInput += OnMoveInput;
             InputReader.JumpActivated += OnJumpInput;
             InputReader.JumpCancelled += OnJumpCancelled;
