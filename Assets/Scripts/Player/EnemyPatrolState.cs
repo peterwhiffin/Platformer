@@ -16,7 +16,7 @@ namespace PetesPlatformer
         {
             base.FixedUpdate();
 
-            m_enemy.Motor.MoveTowardPosition(m_targetPosition);
+            
         }
 
         public override void LateUpdate()
@@ -37,6 +37,7 @@ namespace PetesPlatformer
             }
 
             m_targetPosition = m_enemy.PatrolPositions[m_patrolIndex].position;
+            m_enemy.Motor.MoveTowardPosition(m_targetPosition);
         }
 
         public override void OnExit()
@@ -48,7 +49,7 @@ namespace PetesPlatformer
         {
             base.Update();
 
-            if(Vector3.Distance(m_enemy.transform.position, m_targetPosition) < .1f)
+            if(Vector3.Distance(m_enemy.transform.position, m_targetPosition) < .2f)
             {
                 m_enemy.transform.position = m_targetPosition;
                 m_stateMachine.ChangeState(m_enemy.IdleState);

@@ -13,6 +13,7 @@ namespace PetesPlatformer
         public override void OnEnter()
         {
             m_enemy.Animator.OnEnemyIdle();
+            m_enemy.Motor.StopMovement();
             m_enterTime = Time.time;
         }
 

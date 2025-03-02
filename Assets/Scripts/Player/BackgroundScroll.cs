@@ -5,19 +5,32 @@ namespace PetesPlatformer
 {
     public class BackgroundScroll : MonoBehaviour
     {
-        private float m_Length;
+        public struct BackgroundData
+        {
+            public Vector2 position;
+            public float length;
+
+            public BackgroundData(Vector2 position, float length)
+            {
+                this.position = position;
+                this.length = length;
+            }
+        }
+
+        //private float m_Length;
         [SerializeField] private List<Transform> m_AllBackgrounds;
-        private Dictionary<Transform, Vector2> m_Backgrounds = new();
+        private Dictionary<Transform, BackgroundData> m_Backgrounds = new();
         [SerializeField] private Transform m_Camera;
 
         private void Start()
         {
             m_Camera = Camera.main.transform;
-            m_Length = m_AllBackgrounds[0].GetComponent<SpriteRenderer>().bounds.size.x * 1.5f;
+            //m_Length = m_AllBackgrounds[0].GetComponent<SpriteRenderer>().bounds.size.x * 1.5f;
 
             foreach (Transform t in m_AllBackgrounds)
             {
-                m_Backgrounds.Add(t, t.position);
+                var data = new BackgroundData(t.position, m_AllBackgrounds[0].GetComponent<SpriteRenderer>().bounds.size.x * 1.5f);
+                m_Backgrounds.Add(t, data);
             }
         }
 
@@ -25,22 +38,23 @@ namespace PetesPlatformer
         {
             foreach (var t in m_AllBackgrounds)
             {
+                BackgroundData data = m_Backgrounds[t];
                 float temp = (m_Camera.position.x * (1 - t.position.z));
                 float distance = (m_Camera.position.x * t.position.z);
 
-                t.position = new Vector3(m_Backgrounds[t].x + distance, t.position.y, t.position.z);
+                t.position = new Vector3(data.position.x + distance, t.position.y, t.position.z);
 
-                if (temp > m_Backgrounds[t].x + m_Length)
+                if (temp > data.position.x + data.length)
                 {
-                    Vector2 current = m_Backgrounds[t];
-                    current.x += (m_Length * 2);
-                    m_Backgrounds[t] = current;
+                    Vector2 current = data.position;
+                    current.x += (data.length * 2);
+                    data.position = current;
                 }
-                else if (temp < m_Backgrounds[t].x - m_Length)
+                else if (temp < data.position.x - data.length)
                 {
-                    Vector2 current = m_Backgrounds[t];
-                    current.x -= (m_Length * 2);
-                    m_Backgrounds[t] = current;
+                    Vector2 current = data.position;
+                    current.x -= (data.length * 2);
+                    data.position = current;
                 }
             }
         }

@@ -24,6 +24,8 @@ namespace PetesPlatformer
             float acceleration = Mathf.Sqrt(-2f * m_settings.Gravity * distance);
             Vector2 velocity = acceleration * direction;
             m_RigidBody.linearVelocity = velocity;
+            //transform.position += new Vector3(velocity.x, velocity.y, transform.position.z) * Time.deltaTime;
+            IsGrounded = false;
         }
 
         public bool CanJump()
@@ -95,7 +97,7 @@ namespace PetesPlatformer
 
         public void SetIdle()
         {
-            m_RigidBody.linearVelocity = Vector2.zero;
+            m_RigidBody.linearVelocityX = 0f;
             JumpsRemaining = 2;
         }
 
@@ -110,18 +112,6 @@ namespace PetesPlatformer
             }
             else
             {
-
-
-                //if (Physics2D.OverlapCapsule(transform.position + new Vector3(.5f, 0f, 0f), new Vector2(.59f, .747f), CapsuleDirection2D.Vertical, 0f, m_settings.GroundMask))
-                //{
-                //    Debug.Log("--------on right wall");
-                //    IsOnWall = 1;
-                //}
-                //else if (Physics2D.OverlapCapsule(transform.position - new Vector3(.01f, 0f, 0f), new Vector2(.59f, .747f), CapsuleDirection2D.Vertical, 0f, m_settings.GroundMask))
-                //{
-                //    Debug.Log("----------on left wall");
-                //    IsOnWall = -1;
-                //}
                 if (Physics2D.OverlapCircle(m_wallCheckPosition.position + new Vector3(m_settings.WallCheckOffset, 0f, 0f), m_settings.WallCheckRadius, m_settings.GroundMask))
                 {
                     IsOnWall = 1;

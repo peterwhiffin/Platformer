@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using System;
 
 namespace PetesPlatformer
 {
@@ -13,7 +15,7 @@ namespace PetesPlatformer
 
         [SerializeField] Animator m_animator;
         [SerializeField] SpriteRenderer m_spriteRenderer;
-
+        
         private void ChangeAnimation(int newState)
         {
             m_animator.SetBool(m_currentState, false);

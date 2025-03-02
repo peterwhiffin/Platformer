@@ -68,12 +68,9 @@ namespace PetesPlatformer
                     m_stateMachine.ChangeState(m_player.MoveState);
                 }
             }
-            else if (m_player.Motor.IsOnWall != 0)
+            else if (m_player.Motor.IsOnWall != 0 && m_player.Input.MoveInput.x == m_player.Motor.IsOnWall)
             {
-                if(m_player.Input.MoveInput.x == m_player.Motor.IsOnWall)
-                {
-                    m_stateMachine.ChangeState(m_player.WallSlideState);
-                }
+                m_stateMachine.ChangeState(m_player.WallSlideState);
             }
             else if (m_player.Input.JumpCancelled || m_player.Motor.Velocity.y <= 0)
             {

@@ -46,6 +46,11 @@ namespace PetesPlatformer
         {
             m_player.Motor.CheckForGround();
 
+            if (m_player.Input.MoveInput.x != 0)
+            {
+                m_player.Animator.SetSpriteOrientation(m_player.Input.MoveInput.x);
+            }
+
             if (m_player.Input.JumpCancelled || m_player.Motor.Velocity.y <= 0)
             {
                 m_stateMachine.ChangeState(m_player.FallingState);

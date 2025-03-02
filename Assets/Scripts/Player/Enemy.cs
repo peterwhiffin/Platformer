@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PetesPlatformer
@@ -11,7 +12,7 @@ namespace PetesPlatformer
         [field: SerializeField] public Life EnemyLife { get; private set; }
         [field: SerializeField] public EnemyMotor Motor { get; private set; }
         [field: SerializeField] public EnemyAnimation Animator { get; private set; }
-        [field: SerializeField] public Damager EnemyDamager { get; private set; }
+        //[field: SerializeField] public Damager EnemyDamager { get; private set; }
 
         [field: SerializeField] public EnemyIdleState IdleState { get; private set; }
         [field: SerializeField] public EnemyPatrolState PatrolState { get; private set; }
@@ -55,11 +56,25 @@ namespace PetesPlatformer
 
         private void OnDied()
         {
-            EnemyDamager.gameObject.SetActive(false);
-            EnemyLife.gameObject.SetActive(false);
+            StartCoroutine(Despawn());
             m_stateMachine.ChangeState(DeathState);
         }
 
+        private IEnumerator Despawn()
+        {
+            //EnemyDamager.Disable();
+            //EnemyLife.gameObject.SetActive(false);
+            Motor.Disable();
+            float timer = 0f;
+
+            while(timer < 3f)
+            {
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            Destroy(gameObject);
+        }
 
         private void OnDamageTaken() 
         {

@@ -14,7 +14,7 @@ namespace PetesPlatformer
         [field: SerializeField] public PlayerMotor Motor { get; private set; }
         [field: SerializeField] public PlayerAnimator Animator { get; private set; }
         [field: SerializeField] public PlayerInput Input { get; private set; }
-        [field: SerializeField] public Damager PlayerDamager {  get; private set; }
+        [field: SerializeField] public PlayerDamager PlayerDamager {  get; private set; }
 
         public PlayerIdleState IdleState { get; private set; }
         public PlayerMoveState MoveState { get; private set; }
