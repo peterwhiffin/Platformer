@@ -8,23 +8,51 @@ namespace PetesPlatformer
     {
         private float m_lastJumpTime = 0f;
 
+        [SerializeField] private Player m_player;
         [SerializeField] private Rigidbody2D m_RigidBody;
         [SerializeField] private PlayerMovementSettings m_settings;
         [SerializeField] private Transform m_groundCheckPosition;
         [SerializeField] private Transform m_wallCheckPosition;
-
+        
         public bool IsGrounded { get; private set; }
         public int IsOnWall { get; private set; }
         public int JumpsRemaining { get; private set; }
         public Vector2 Velocity { get { return m_RigidBody.linearVelocity; } }
         public PlayerMovementSettings Settings { get { return m_settings; } }
 
-        public void ExternalMove(Vector2 direction, float distance)
+        private void Start()
         {
-            float acceleration = Mathf.Sqrt(-2f * m_settings.Gravity * distance);
-            Vector2 velocity = acceleration * direction;
+            m_player.PlayerLife.DamageTaken += OnDamageTaken;
+        }
+
+        private void OnDestroy()
+        {
+            m_player.PlayerLife.DamageTaken -= OnDamageTaken;
+        }
+
+        private void OnDamageTaken(Vector3 damagerPosition)
+        {
+            var moveVelocity = (transform.position - damagerPosition).normalized * m_settings.DamageKnockbackSpeed;
+            moveVelocity += Vector3.up * m_settings.DamageKnockbackSpeed;
+            SetVelocity(moveVelocity);
+        }
+
+        public void OnStompedEnemy()
+        {
+            SetVelocity(Vector3.up * m_settings.EnemyStompKnockUp);
+        }
+
+        public void AddVelocity(Vector2 velocity)
+        {
+            m_RigidBody.linearVelocity += velocity;
+            JumpsRemaining = 1;
+            IsGrounded = false;
+        }
+
+        public void SetVelocity(Vector2 velocity)
+        {
             m_RigidBody.linearVelocity = velocity;
-            //transform.position += new Vector3(velocity.x, velocity.y, transform.position.z) * Time.deltaTime;
+            JumpsRemaining = 1;
             IsGrounded = false;
         }
 
@@ -55,6 +83,7 @@ namespace PetesPlatformer
             float verticalJumpVelocity = Mathf.Sqrt(-2f * m_settings.Gravity * m_settings.JumpHeight);
             m_RigidBody.linearVelocityY = verticalJumpVelocity;
             m_lastJumpTime = Time.time;
+            JumpsRemaining -= 1;
         }
 
         public void JumpFromWall()
@@ -63,6 +92,7 @@ namespace PetesPlatformer
             m_RigidBody.linearVelocityY = verticalJumpVelocity;
             m_RigidBody.linearVelocityX = IsOnWall * m_settings.WallJumpHorizontalSpeed;
             m_lastJumpTime = Time.time;
+            JumpsRemaining -= 1;
         }
 
         public void OnEndJump()
@@ -92,6 +122,11 @@ namespace PetesPlatformer
 
         public void OnFalling()
         {
+            if(JumpsRemaining < 2) 
+            {
+                return;
+            }
+
             JumpsRemaining = Mathf.Max(JumpsRemaining - 1, 0);
         }
 
@@ -120,6 +155,22 @@ namespace PetesPlatformer
                 {
                     IsOnWall = -1;
                 }
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if(collision.collider.TryGetComponent(out MovingPlatform platform))
+            {
+                transform.SetParent(platform.transform);
+            }
+        }
+
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (collision.collider.TryGetComponent(out MovingPlatform platform))
+            {
+                transform.SetParent(null);
             }
         }
     }

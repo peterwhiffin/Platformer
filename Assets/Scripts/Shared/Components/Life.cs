@@ -1,5 +1,4 @@
-﻿using Unity.VisualScripting.Antlr3.Runtime.Misc;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 namespace PetesPlatformer
@@ -12,14 +11,14 @@ namespace PetesPlatformer
         [SerializeField] private Stats m_stats;
 
         public event Action Died = delegate { };
-        public event Action DamageTaken = delegate { };
+        public event Action<Vector3> DamageTaken = delegate { };
 
         private void Start()
         {
             m_health = m_stats.MaxHealth;
         }
 
-        public void TakeDamage(DamageType damageType, int damage)
+        public void TakeDamage(DamageType damageType, int damage, Vector3 damagerPosition)
         {
             if(!m_stats.DamageTypes.Contains(damageType) || Time.time - m_lastDamageTime < m_stats.DamageCoolDown)
             {
@@ -36,7 +35,7 @@ namespace PetesPlatformer
             }
             else
             {
-                DamageTaken.Invoke();
+                DamageTaken.Invoke(damagerPosition);
             }
         }
     }

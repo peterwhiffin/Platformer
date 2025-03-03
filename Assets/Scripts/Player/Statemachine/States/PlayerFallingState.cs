@@ -4,7 +4,9 @@ namespace PetesPlatformer
 {
     public class PlayerFallingState : PlayerState
     {
-        bool m_animationSet = false;
+        private bool m_jumpRemoved = false;
+        private float m_enterTime;
+        private readonly float m_coyoteTime = .05f;
 
         public PlayerFallingState(StateMachine stateMachine, Player player) : base(stateMachine, player)
         {
@@ -20,16 +22,9 @@ namespace PetesPlatformer
         }
         public override void OnEnter()
         {
-            m_player.Motor.OnFalling();
+            m_jumpRemoved = false;
+            m_enterTime = Time.time;
             m_player.Animator.OnPlayerJump();
-            m_animationSet = false;
-
-            if(m_player.Motor.Velocity.y < 0)
-            {
-                m_player.Animator.OnPlayerFalling();
-                m_animationSet = true;
-            }
-
         }
         public override void OnExit()
         {
@@ -39,10 +34,19 @@ namespace PetesPlatformer
             m_player.Motor.CheckForGround();
             m_player.Animator.SetSpriteOrientation(m_player.Input.MoveInput.x);
 
-            if (!m_animationSet && m_player.Motor.Velocity.y < 0)
+            if(!m_jumpRemoved && Time.time - m_enterTime >= m_coyoteTime)
+            {
+                m_jumpRemoved = true;
+                m_player.Motor.OnFalling();
+            }
+
+            if (m_player.Motor.Velocity.y < 0)
             {
                 m_player.Animator.OnPlayerFalling();
-                m_animationSet = true;
+            }
+            else
+            {
+                m_player.Animator.OnPlayerJump();
             }
 
             if (m_player.Motor.IsGrounded)

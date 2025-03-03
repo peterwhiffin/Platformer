@@ -4,6 +4,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 namespace PetesPlatformer
 {
+
     public class JumpPad : MonoBehaviour
     {
         private bool m_canTrigger = true;
@@ -41,7 +42,7 @@ namespace PetesPlatformer
             
             if (collision.gameObject.TryGetComponent(out IMovable movable))
             {
-                movable.ExternalMove(transform.up, m_jumpHeight);
+                movable.SetVelocity(transform.up * m_jumpHeight);
                 m_animator.SetTrigger("Activate");
                 m_canTrigger = false;
             }

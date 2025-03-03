@@ -88,7 +88,7 @@ namespace PetesPlatformer
             m_stateMachine.CurrentState.LateUpdate();
         }
 
-        private void OnDamaged()
+        private void OnDamaged(Vector3 damagerPosition)
         {
             Animator.OnPlayerDamaged();
         }

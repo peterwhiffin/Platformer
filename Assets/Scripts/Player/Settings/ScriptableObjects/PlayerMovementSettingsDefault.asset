@@ -24,9 +24,11 @@ MonoBehaviour:
   <Gravity>k__BackingField: -23.6
   <TerminalVelocity>k__BackingField: -52.84
   <GroundCheckRadius>k__BackingField: 0.2
-  <WallCheckRadius>k__BackingField: 0.3
-  <WallCheckOffset>k__BackingField: 0.12
+  <WallCheckRadius>k__BackingField: 0.2
+  <WallCheckOffset>k__BackingField: 0.08
   <WallJumpMovementCooldown>k__BackingField: 0.13
+  <DamageKnockbackSpeed>k__BackingField: 4
+  <EnemyStompKnockUp>k__BackingField: 8
   <GroundMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 64

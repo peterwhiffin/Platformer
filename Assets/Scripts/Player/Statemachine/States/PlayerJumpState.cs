@@ -5,7 +5,6 @@ namespace PetesPlatformer
     public class PlayerJumpState : PlayerState
     {
         private bool m_hasLeftGround = false;
-        private float m_movementCooldownTimer = 0f;
 
         public PlayerJumpState(StateMachine stateMachine, Player player) : base(stateMachine, player)
         {
@@ -31,7 +30,6 @@ namespace PetesPlatformer
             m_player.Animator.OnPlayerJump();
             m_player.Input.ConsumeJumpInput();                 
             m_hasLeftGround = false;
-            m_movementCooldownTimer = 0f;
         }
 
         public override void OnExit()

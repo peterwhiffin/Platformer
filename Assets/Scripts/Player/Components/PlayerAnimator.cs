@@ -20,6 +20,11 @@ namespace PetesPlatformer
 
         private void ChangeAnimation(int newState)
         {
+            if(m_currentState == newState)
+            {
+                return;
+            }
+
             m_animator.SetBool(m_currentState, false);
             m_animator.SetBool(newState, true);
             m_currentState = newState;

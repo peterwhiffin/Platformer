@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: EnemyDefaultDamageSettings
   m_EditorClassIdentifier: 
   <Damage>k__BackingField: 1
-  <DamageRate>k__BackingField: 0.2
+  <DamageRate>k__BackingField: 0.1
   <Type>k__BackingField: {fileID: 11400000, guid: 02ede3af91e6d40478acd66ff632cbcc, type: 2}

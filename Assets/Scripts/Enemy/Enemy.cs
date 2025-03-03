@@ -6,33 +6,19 @@ namespace PetesPlatformer
 {
     public class Enemy : MonoBehaviour
     {
-        private StateMachine m_stateMachine;
+        private BehaviorTree m_behaviorTree;
         private bool m_isPaused;
 
         [field: SerializeField] public Life EnemyLife { get; private set; }
         [field: SerializeField] public EnemyMotor Motor { get; private set; }
-        [field: SerializeField] public EnemyAnimation Animator { get; private set; }
-        //[field: SerializeField] public Damager EnemyDamager { get; private set; }
-
-        [field: SerializeField] public EnemyIdleState IdleState { get; private set; }
-        [field: SerializeField] public EnemyPatrolState PatrolState { get; private set; }
-        [field: SerializeField] public EnemyPursueState PursueState { get; private set; }
-        [field: SerializeField] public EnemyAttackState AttackState { get; private set; }
-        [field: SerializeField] public EnemyDeathState DeathState { get; private set; }
-        
+        [field: SerializeField] public EnemyAnimation Animator { get; private set; }    
         [field: SerializeField] public List<Transform> PatrolPositions { get; private set; }
 
         private void Awake()
         {
-            m_stateMachine = new StateMachine();
-
-            IdleState = new EnemyIdleState(m_stateMachine, this);
-            PatrolState = new EnemyPatrolState(m_stateMachine, this);
-            PursueState = new EnemyPursueState(m_stateMachine, this);
-            AttackState = new EnemyAttackState(m_stateMachine, this);
-            DeathState = new EnemyDeathState(m_stateMachine, this);
-
-            m_stateMachine.Initialize(IdleState);
+            m_behaviorTree = new("EnemyTree");
+            m_behaviorTree.AddChild(new LeafNode("Idle", new IdleStrategy(this, 2f)));
+            m_behaviorTree.AddChild(new LeafNode("Patrol", new PatrolStrategy(this)));
         }
 
         private void Start()
@@ -57,13 +43,10 @@ namespace PetesPlatformer
         private void OnDied()
         {
             StartCoroutine(Despawn());
-            m_stateMachine.ChangeState(DeathState);
         }
 
         private IEnumerator Despawn()
         {
-            //EnemyDamager.Disable();
-            //EnemyLife.gameObject.SetActive(false);
             Motor.Disable();
             float timer = 0f;
 
@@ -76,7 +59,7 @@ namespace PetesPlatformer
             Destroy(gameObject);
         }
 
-        private void OnDamageTaken() 
+        private void OnDamageTaken(Vector3 damagerPosition) 
         {
             Animator.OnEnemyDamaged();
         }
@@ -88,7 +71,10 @@ namespace PetesPlatformer
                 return;
             }
 
-            m_stateMachine.CurrentState.Update();
+           if(m_behaviorTree.Proccess() == Node.Status.Success)
+            {
+                m_behaviorTree.Reset();
+            }
         }
 
         private void FixedUpdate()
@@ -97,8 +83,6 @@ namespace PetesPlatformer
             {
                 return;
             }
-            
-            m_stateMachine.CurrentState.FixedUpdate();
         }
     }
 }

@@ -10,11 +10,6 @@ namespace PetesPlatformer
         [field: SerializeField] public EnemyMovementSettings Settings { get; private set; }
         
 
-        public void ExternalMove(Vector2 direction, float distance)
-        {
-            
-        }
-
         public void StopMovement()
         {
             m_rigidbody.linearVelocity = Vector2.zero;
@@ -28,7 +23,17 @@ namespace PetesPlatformer
 
         public void Disable()
         {
-            m_rigidbody.simulated = false;
+            //m_rigidbody.simulated = false;
+        }
+
+        public void AddVelocity(Vector2 velocity)
+        {
+
+        }
+
+        public void SetVelocity(Vector2 velocity)
+        {
+
         }
     }
 }

@@ -30,8 +30,8 @@ namespace PetesPlatformer
             {
                 if (collider.TryGetComponent(out IDamageable damageable))
                 {
-                    damageable.TakeDamage(m_settings.Type, m_settings.Damage);
-                    m_player.Motor.ExternalMove(Vector2.up, 4f);
+                    damageable.TakeDamage(m_settings.Type, m_settings.Damage, transform.position);
+                    m_player.Motor.OnStompedEnemy();
                     DamageApplied.Invoke();
                 }
             }

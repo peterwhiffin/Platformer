@@ -2,5 +2,6 @@ using UnityEngine;
 
 public interface IMovable
 {
-    public void ExternalMove(Vector2 direction, float distance);
+    public void AddVelocity(Vector2 velocity);
+    public void SetVelocity(Vector2 velocity);
 }
