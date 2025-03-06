@@ -16,11 +16,12 @@ MonoBehaviour:
   <AirSpeed>k__BackingField: 7.28
   <JumpHeight>k__BackingField: 3.13
   <JumpInterval>k__BackingField: 0
+  <HorizontalDrag>k__BackingField: 3.8
   <WallJumpHeight>k__BackingField: 2.1
   <WallJumpHorizontalSpeed>k__BackingField: -6.99
   <WallMovementThreshold>k__BackingField: 0.18
   <VariableJumpVelocityMultiplier>k__BackingField: 0.43
-  <WallSlideSpeed>k__BackingField: 1.92
+  <WallSlideSpeed>k__BackingField: 2.9
   <Gravity>k__BackingField: -23.6
   <TerminalVelocity>k__BackingField: -52.84
   <GroundCheckRadius>k__BackingField: 0.2
@@ -31,4 +32,4 @@ MonoBehaviour:
   <EnemyStompKnockUp>k__BackingField: 8
   <GroundMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576

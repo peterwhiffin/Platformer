@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace PetesPlatformer
 {
@@ -8,6 +9,7 @@ namespace PetesPlatformer
         private float m_lastDamageTime = 0f;
 
         [SerializeField] private DamageSettings m_settings;
+        [SerializeField] private bool m_appliesKnockback;
 
         public void Activate(bool isActive)
         {
@@ -23,6 +25,7 @@ namespace PetesPlatformer
 
             if (collision.TryGetComponent(out IDamageable damageable))
             {
+                m_lastDamageTime = Time.time;
                 damageable.TakeDamage(m_settings.Type, m_settings.Damage, transform.position);
             }
         }

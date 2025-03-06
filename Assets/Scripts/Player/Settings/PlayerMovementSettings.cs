@@ -8,6 +8,7 @@ namespace PetesPlatformer
         [field: SerializeField] public float AirSpeed { get; private set; }
         [field: SerializeField] public float JumpHeight { get; private set; }
         [field: SerializeField] public float JumpInterval { get; private set; }
+        [field: SerializeField] public float HorizontalDrag { get; private set; }
         [field: SerializeField] public float WallJumpHeight { get; private set; }
         [field: SerializeField] public float WallJumpHorizontalSpeed { get; private set; }
         [field: SerializeField] public float WallMovementThreshold { get; private set; }

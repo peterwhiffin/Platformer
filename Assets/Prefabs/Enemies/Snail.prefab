@@ -84,6 +84,7 @@ MonoBehaviour:
   <PatrolPositions>k__BackingField:
   - {fileID: 0}
   - {fileID: 0}
+  <Damager>k__BackingField: {fileID: 59309709175253319}
 --- !u!114 &5744442356375501634
 MonoBehaviour:
   m_ObjectHideFlags: 0

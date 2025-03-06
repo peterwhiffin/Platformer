@@ -19,9 +19,9 @@ TagManager:
   - Damager
   - Enemy
   - Player
-  - 
-  - 
-  - 
+  - DamageCooldown
+  - EnemyCooldown
+  - PlayerDetector
   - 
   - 
   - 

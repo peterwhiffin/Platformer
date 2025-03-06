@@ -9,11 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8247f75d0e3e27488fc4e4d788573bf, type: 3}
-  m_Name: DefaultGameSave
+  m_Script: {fileID: 11500000, guid: cc901f09f1e94d14b9c0a8b8b8aedcde, type: 3}
+  m_Name: SimplePatrolTree
   m_EditorClassIdentifier: 
-  m_saveSlot: 0
-  m_lives: 3
-  m_fruit: 0
-  m_unlockedLevels: 00000000
-  m_currentLevel: 0

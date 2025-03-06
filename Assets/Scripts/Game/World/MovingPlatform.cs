@@ -5,6 +5,7 @@ using System.Collections;
 
 namespace PetesPlatformer
 {
+
     public class MovingPlatform : MonoBehaviour
     {
         private int m_currentIndex = 0;

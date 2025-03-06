@@ -6,33 +6,36 @@ namespace PetesPlatformer
 {
     public class Enemy : MonoBehaviour
     {
-        private BehaviorTree m_behaviorTree;
         private bool m_isPaused;
+
+        [SerializeField] private EnemyBehaviorTree m_behaviorTree;
 
         [field: SerializeField] public Life EnemyLife { get; private set; }
         [field: SerializeField] public EnemyMotor Motor { get; private set; }
         [field: SerializeField] public EnemyAnimation Animator { get; private set; }    
         [field: SerializeField] public List<Transform> PatrolPositions { get; private set; }
+        [field: SerializeField] public EnemyDamager Damager { get; private set; }
+        [field: SerializeField] public PlayerDetector PlayerDetector { get; private set; }
 
         private void Awake()
         {
-            m_behaviorTree = new("EnemyTree");
-            m_behaviorTree.AddChild(new LeafNode("Idle", new IdleStrategy(this, 2f)));
-            m_behaviorTree.AddChild(new LeafNode("Patrol", new PatrolStrategy(this)));
+            m_behaviorTree.BuildTree(this);
         }
 
         private void Start()
         {
             SceneRoot.GamePaused += OnGamePaused;
-            EnemyLife.DamageTaken += OnDamageTaken;
-            EnemyLife.Died += OnDied;
+
+            if (EnemyLife != null)
+            {
+                EnemyLife.DamageTaken += OnDamageTaken;
+            }
         }
 
         private void OnDestroy()
         {
             SceneRoot.GamePaused -= OnGamePaused;
-            EnemyLife.DamageTaken -= OnDamageTaken;
-            EnemyLife.Died -= OnDied;
+            EnemyLife.DamageTaken -= OnDamageTaken;          
         }
 
         private void OnGamePaused(bool isPaused)
@@ -40,22 +43,8 @@ namespace PetesPlatformer
             m_isPaused = isPaused;
         }
 
-        private void OnDied()
+        public void Despawn()
         {
-            StartCoroutine(Despawn());
-        }
-
-        private IEnumerator Despawn()
-        {
-            Motor.Disable();
-            float timer = 0f;
-
-            while(timer < 3f)
-            {
-                timer += Time.deltaTime;
-                yield return null;
-            }
-
             Destroy(gameObject);
         }
 
@@ -71,18 +60,7 @@ namespace PetesPlatformer
                 return;
             }
 
-           if(m_behaviorTree.Proccess() == Node.Status.Success)
-            {
-                m_behaviorTree.Reset();
-            }
-        }
-
-        private void FixedUpdate()
-        {
-            if (m_isPaused)
-            {
-                return;
-            }
+            m_behaviorTree.Process();
         }
     }
 }

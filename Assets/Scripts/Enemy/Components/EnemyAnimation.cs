@@ -42,13 +42,5 @@ namespace PetesPlatformer
         {
             m_animator.Play(m_damagedHash, 0, 0f);
         }
-
-        public void SetSpriteOrientation(float moveDirection)
-        {
-            if (moveDirection == 0)
-                return;
-
-            m_spriteRenderer.flipX = moveDirection < 0;
-        }
     }
 }

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdb99581f192d3e47845ae8aded97059, type: 3}
-  m_Name: EnemyDefaultDamageSettings
+  m_Name: RockHeadDamageSettings
   m_EditorClassIdentifier: 
   <Damage>k__BackingField: 1
-  <DamageRate>k__BackingField: 0.1
+  <DamageRate>k__BackingField: 1
   <Type>k__BackingField: {fileID: 11400000, guid: 02ede3af91e6d40478acd66ff632cbcc, type: 2}
-  <CooldownTime>k__BackingField: 0.2
+  <CooldownTime>k__BackingField: 2

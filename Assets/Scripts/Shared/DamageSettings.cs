@@ -8,5 +8,6 @@ namespace PetesPlatformer
         [field: SerializeField] public int Damage { get; private set; }
         [field: SerializeField] public float DamageRate { get; private set; }
         [field: SerializeField] public DamageType Type { get; private set; }
+        [field: SerializeField] public float CooldownTime { get; private set; }
     }
 }

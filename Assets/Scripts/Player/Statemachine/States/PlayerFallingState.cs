@@ -7,6 +7,7 @@ namespace PetesPlatformer
         private bool m_jumpRemoved = false;
         private float m_enterTime;
         private readonly float m_coyoteTime = .05f;
+        private bool m_hasMoved = false;
 
         public PlayerFallingState(StateMachine stateMachine, Player player) : base(stateMachine, player)
         {
@@ -15,7 +16,20 @@ namespace PetesPlatformer
         public override void FixedUpdate()
         {
             m_player.Motor.ApplyGravity();
-            m_player.Motor.MoveInAir(m_player.Input.MoveInput.x);
+
+            if(m_player.Input.MoveInput.x != 0)
+            {
+                m_hasMoved = true;
+            }
+
+            if (!m_hasMoved)
+            {
+                m_player.Motor.ApplyHorizontalDrag();
+            }
+            else
+            {
+                m_player.Motor.MoveInAir(m_player.Input.MoveInput.x);
+            }
         }
         public override void LateUpdate()
         {
@@ -24,6 +38,7 @@ namespace PetesPlatformer
         {
             m_jumpRemoved = false;
             m_enterTime = Time.time;
+            m_hasMoved = false;
             m_player.Animator.OnPlayerJump();
         }
         public override void OnExit()

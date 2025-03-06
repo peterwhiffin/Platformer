@@ -30,9 +30,13 @@ namespace PetesPlatformer
             float x = rawMove.x;
             float y = rawMove.y;
 
-            if(x != 0)
+            if(x != 0 && Mathf.Abs(x) > .5)
             {
                 x = Mathf.Sign(x);
+            }
+            else
+            {
+                x = 0;
             }
 
             if(y != 0)

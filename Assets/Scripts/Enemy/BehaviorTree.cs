@@ -15,8 +15,10 @@
                 {
                     return status;
                 }
+
                 m_currentChild++;
             }
+
             return Status.Success;
         }
     }

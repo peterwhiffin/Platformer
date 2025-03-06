@@ -22,18 +22,19 @@ namespace PetesPlatformer
 
         private void Start()
         {
-            m_player.PlayerLife.DamageTaken += OnDamageTaken;
+            //m_player.PlayerLife.DamageTaken += OnDamageTaken;
         }
 
         private void OnDestroy()
         {
-            m_player.PlayerLife.DamageTaken -= OnDamageTaken;
+            //m_player.PlayerLife.DamageTaken -= OnDamageTaken;
         }
 
-        private void OnDamageTaken(Vector3 damagerPosition)
+        public void OnDamageTaken()
         {
-            var moveVelocity = (transform.position - damagerPosition).normalized * m_settings.DamageKnockbackSpeed;
-            moveVelocity += Vector3.up * m_settings.DamageKnockbackSpeed;
+            //var moveVelocity = (transform.position - damagerPosition).normalized * m_settings.DamageKnockbackSpeed;
+           
+            var moveVelocity = Vector3.up * m_settings.DamageKnockbackSpeed;
             SetVelocity(moveVelocity);
         }
 
@@ -115,6 +116,13 @@ namespace PetesPlatformer
             m_RigidBody.linearVelocityY = -m_settings.WallSlideSpeed;
         }
 
+        public void ApplyHorizontalDrag()
+        {
+            float xVelocity = Mathf.Abs(m_RigidBody.linearVelocityX);
+            xVelocity = Mathf.Max(xVelocity - m_settings.HorizontalDrag * Time.fixedDeltaTime, 0);
+            m_RigidBody.linearVelocityX = Mathf.Sign(m_RigidBody.linearVelocityX) * xVelocity;
+        }
+
         public void ApplyGravity()
         {
             m_RigidBody.linearVelocityY = Mathf.Max(m_RigidBody.linearVelocityY + m_settings.Gravity * Time.fixedDeltaTime, m_settings.TerminalVelocity);
@@ -160,17 +168,17 @@ namespace PetesPlatformer
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if(collision.collider.TryGetComponent(out MovingPlatform platform))
+            if(collision.collider.TryGetComponent(out IParentPlatform platform))
             {
-                transform.SetParent(platform.transform);
+                platform.Enter(transform);
             }
         }
 
         private void OnCollisionExit2D(Collision2D collision)
         {
-            if (collision.collider.TryGetComponent(out MovingPlatform platform))
+            if (collision.collider.TryGetComponent(out IParentPlatform platform))
             {
-                transform.SetParent(null);
+                platform.Exit(transform);
             }
         }
     }

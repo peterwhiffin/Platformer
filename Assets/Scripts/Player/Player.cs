@@ -23,6 +23,7 @@ namespace PetesPlatformer
         public PlayerWallSlideState WallSlideState { get; private set; }
         public PlayerWallJumpState WallJumpState { get; private set; }
         public PlayerDeathState DeathState { get; private set; }
+        public PlayerHitState HitState { get; private set; }
 
         private void Awake()
         {
@@ -34,6 +35,7 @@ namespace PetesPlatformer
             FallingState = new PlayerFallingState(m_stateMachine, this);
             WallSlideState = new PlayerWallSlideState(m_stateMachine, this);
             WallJumpState = new PlayerWallJumpState(m_stateMachine, this);
+            HitState = new PlayerHitState(m_stateMachine, this);
             DeathState = new PlayerDeathState(m_stateMachine, this);
 
             m_stateMachine.Initialize(IdleState);
