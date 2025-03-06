@@ -20,6 +20,7 @@ namespace PetesPlatformer
                 .AddChild(new LeafNode("ActivateDamager", new ActionStrategy(() => enemy.Damager.Activate(true))))
                 .AddChild(new LeafNode("Stomp", new MoveStrategy(enemy, enemy.PatrolPositions[0].position, enemy.PatrolPositions[1].position, m_stompDuration, 12f)))
                 .AddChild(new LeafNode("HitAnimation", new ActionStrategy(enemy.Animator.OnEnemyDamaged)))
+                .AddChild(new LeafNode("DeactivateDamager", new ActionStrategy(() => enemy.Damager.Activate(false))))
                 .AddChild(new LeafNode("ResetDelay", new IdleStrategy(enemy, m_resetDelay)))
                 .AddChild(new LeafNode("ResetPosition", new MoveStrategy(enemy, enemy.PatrolPositions[1].position, enemy.PatrolPositions[0].position, m_resetDuration, 12f)));
 

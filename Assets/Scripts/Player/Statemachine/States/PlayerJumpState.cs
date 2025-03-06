@@ -49,13 +49,30 @@ namespace PetesPlatformer
             {
                 m_hasLeftGround = true;
             }
-            
-            if(!m_hasLeftGround)
+
+            if (m_player.PlayerLife.IsDead)
+            {
+                m_stateMachine.ChangeState(m_player.DeathState);
+            }
+            else if (m_player.PlayerLife.WasHitTaken())
+            {
+                m_stateMachine.ChangeState(m_player.HitState);
+            }
+
+            if (!m_hasLeftGround)
             {
                 return;
             }
 
-            if (m_player.Motor.IsGrounded)
+            if (m_player.PlayerLife.IsDead)
+            {
+                m_stateMachine.ChangeState(m_player.DeathState);
+            }
+            else if (m_player.PlayerLife.WasHitTaken())
+            {
+                m_stateMachine.ChangeState(m_player.HitState);
+            }
+            else if (m_player.Motor.IsGrounded)
             {
                 if (m_player.Input.MoveInput.x == 0)
                 {

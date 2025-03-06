@@ -21,7 +21,9 @@ namespace PetesPlatformer
         [field: SerializeField] public float WallCheckOffset { get; private set; }
         [field: SerializeField] public float WallJumpMovementCooldown { get; private set; }
         [field: SerializeField] public float DamageKnockbackSpeed { get; private set; }
+        [field: SerializeField] public float DamageKnockupSpeed { get; private set; }   
         [field: SerializeField] public float EnemyStompKnockUp { get; private set; }
         [field: SerializeField] public LayerMask GroundMask { get; private set; }
+        [field: SerializeField] public LayerMask WallMask { get; private set; }
     }
 }

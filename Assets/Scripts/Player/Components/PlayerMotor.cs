@@ -20,22 +20,14 @@ namespace PetesPlatformer
         public Vector2 Velocity { get { return m_RigidBody.linearVelocity; } }
         public PlayerMovementSettings Settings { get { return m_settings; } }
 
-        private void Start()
+        public void OnDamageTaken(Vector3 damagerPosition)
         {
-            //m_player.PlayerLife.DamageTaken += OnDamageTaken;
-        }
-
-        private void OnDestroy()
-        {
-            //m_player.PlayerLife.DamageTaken -= OnDamageTaken;
-        }
-
-        public void OnDamageTaken()
-        {
-            //var moveVelocity = (transform.position - damagerPosition).normalized * m_settings.DamageKnockbackSpeed;
+            var moveVelocity = (transform.position - damagerPosition).normalized * m_settings.DamageKnockbackSpeed;
            
-            var moveVelocity = Vector3.up * m_settings.DamageKnockbackSpeed;
-            SetVelocity(moveVelocity);
+            var knockUp = Vector3.up * m_settings.DamageKnockupSpeed;
+            knockUp.x += moveVelocity.x;
+
+            SetVelocity(knockUp);
         }
 
         public void OnStompedEnemy()
@@ -152,14 +144,15 @@ namespace PetesPlatformer
             if (Physics2D.OverlapCircle(m_groundCheckPosition.position, m_settings.GroundCheckRadius, m_settings.GroundMask))
             {
                 IsGrounded = true;
+                //m_RigidBody.linearVelocityY = 0f;
             }
             else
             {
-                if (Physics2D.OverlapCircle(m_wallCheckPosition.position + new Vector3(m_settings.WallCheckOffset, 0f, 0f), m_settings.WallCheckRadius, m_settings.GroundMask))
+                if (Physics2D.OverlapCircle(m_wallCheckPosition.position + new Vector3(m_settings.WallCheckOffset, 0f, 0f), m_settings.WallCheckRadius, m_settings.WallMask))
                 {
                     IsOnWall = 1;
                 }
-                else if (Physics2D.OverlapCircle(m_wallCheckPosition.position - new Vector3(m_settings.WallCheckOffset, 0f, 0f), m_settings.WallCheckRadius, m_settings.GroundMask))
+                else if (Physics2D.OverlapCircle(m_wallCheckPosition.position - new Vector3(m_settings.WallCheckOffset, 0f, 0f), m_settings.WallCheckRadius, m_settings.WallMask))
                 {
                     IsOnWall = -1;
                 }

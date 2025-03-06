@@ -44,14 +44,14 @@ namespace PetesPlatformer
         private void Start()
         {
             SceneRoot.GamePaused += OnGamePaused;
-            PlayerLife.DamageTaken += OnDamaged;
+            PlayerLife.PlayerDamaged += OnDamaged;
             PlayerLife.Died += OnDeath;
         }
 
         private void OnDestroy()
         {
             SceneRoot.GamePaused -= OnGamePaused;
-            PlayerLife.DamageTaken -= OnDamaged;
+            PlayerLife.PlayerDamaged -= OnDamaged;
             PlayerLife.Died -= OnDeath;
         }
 
@@ -93,13 +93,14 @@ namespace PetesPlatformer
         private void OnDamaged(Vector3 damagerPosition)
         {
             Animator.OnPlayerDamaged();
+            Motor.OnDamageTaken(damagerPosition);
         }
 
         private void OnDeath()
         {
             PlayerDamager.gameObject.SetActive(false);
             PlayerLife.gameObject.SetActive(false);
-            m_stateMachine.ChangeState(DeathState);
+            //m_stateMachine.ChangeState(DeathState);
         }
     }
 }

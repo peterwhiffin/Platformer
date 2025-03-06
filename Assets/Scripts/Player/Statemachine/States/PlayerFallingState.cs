@@ -6,7 +6,7 @@ namespace PetesPlatformer
     {
         private bool m_jumpRemoved = false;
         private float m_enterTime;
-        private readonly float m_coyoteTime = .05f;
+        private readonly float m_coyoteTime = .09f;
         private bool m_hasMoved = false;
 
         public PlayerFallingState(StateMachine stateMachine, Player player) : base(stateMachine, player)
@@ -39,7 +39,16 @@ namespace PetesPlatformer
             m_jumpRemoved = false;
             m_enterTime = Time.time;
             m_hasMoved = false;
-            m_player.Animator.OnPlayerJump();
+
+            if (m_player.Motor.Velocity.y < 0)
+            {
+                m_player.Animator.OnPlayerFalling();
+            }
+            else
+            {
+                m_player.Animator.OnPlayerJump();
+            }
+            //m_player.Animator.OnPlayerJump();
         }
         public override void OnExit()
         {
@@ -64,7 +73,15 @@ namespace PetesPlatformer
                 m_player.Animator.OnPlayerJump();
             }
 
-            if (m_player.Motor.IsGrounded)
+            if (m_player.PlayerLife.IsDead)
+            {
+                m_stateMachine.ChangeState(m_player.DeathState);
+            }
+            else if (m_player.PlayerLife.WasHitTaken())
+            {
+                m_stateMachine.ChangeState(m_player.HitState);
+            }
+            else if (m_player.Motor.IsGrounded)
             {
                 if (m_player.Input.MoveInput.x == 0)
                 {

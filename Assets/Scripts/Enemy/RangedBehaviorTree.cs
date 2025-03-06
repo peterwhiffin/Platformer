@@ -2,29 +2,40 @@
 
 namespace PetesPlatformer
 {
-    [CreateAssetMenu(menuName = "Enemy/Behavior Tree/Stomp", fileName = "NewStompTree")]
+    [CreateAssetMenu(menuName = "Enemy/Behavior Tree/Ranged", fileName = "NewRangedTree")]
     public class RangedBehaviorTree : EnemyBehaviorTree
     {
-        [SerializeField] private float m_stompDuration;
-        [SerializeField] private float m_resetDelay;
-        [SerializeField] private float m_resetDuration;
+        [SerializeField] private RangedWeaponSettings m_weapon;
+        [SerializeField] private float m_fireRate = 1f;
 
         public override void BuildTree(Enemy enemy)
         {
             m_behaviorTree = new("EnemyTree");
             var mainSelector = new SelectorNode("MainSelector");
 
-            var stompSequence = new SequenceNode("StompSequence")
-                .AddChild(new LeafNode("CheckForPlayer", new ConditionStrategy(() => enemy.PlayerDetector.IsPlayerDetected)))
-                .AddChild(new LeafNode("ActivateDamager", new ActionStrategy(() => enemy.Damager.Activate(true))))
-                .AddChild(new LeafNode("Stomp", new MoveStrategy(enemy, enemy.PatrolPositions[0].position, enemy.PatrolPositions[1].position, m_stompDuration, 12f)))
-                .AddChild(new LeafNode("HitAnimation", new ActionStrategy(enemy.Animator.OnEnemyDamaged)))
-                .AddChild(new LeafNode("ResetDelay", new IdleStrategy(enemy, m_resetDelay)))
-                .AddChild(new LeafNode("ResetPosition", new MoveStrategy(enemy, enemy.PatrolPositions[1].position, enemy.PatrolPositions[0].position, m_resetDuration, 12f)));
+            var deathSequence = new SequenceNode("DeathSequence")
+                .AddChild(new LeafNode("CheckAlive", new ConditionStrategy(() => enemy.EnemyLife.IsDead)))
+                .AddChild(new LeafNode("DeathAnimation", new ActionStrategy(enemy.Animator.OnEnemyDied)))
+                .AddChild(new LeafNode("DespawnRoutine", new EnemyDeathStrategy(enemy)));
 
-            mainSelector.AddChild(stompSequence);
+            var attackSequence = new SequenceNode("RangedAttackSequence")
+                .AddChild(new LeafNode("SearchForPlayer", new ActionStrategy(enemy.PlayerDetector.SearchForPlayer)))
+                .AddChild(new LeafNode("CheckSearchResult", new ConditionStrategy(() => enemy.PlayerDetector.IsPlayerDetected)))
+                .AddChild(new LeafNode("FireAnimation", new ActionStrategy(enemy.Animator.OnEnemyAttack)))
+                .AddChild(new LeafNode("WaitForAnimation", new WaitForAnimationStrategy(enemy)))
+                .AddChild(new LeafNode("FireProjectile", new RangedAttackStrategy(enemy, m_weapon)))              
+                .AddChild(new LeafNode("Cooldown", new IdleStrategy(enemy, m_fireRate)));   
+
+            var patrolSequence = new SequenceNode("LifeSequence")
+                .AddChild(new LeafNode("IdleAnimation", new ActionStrategy(enemy.Animator.OnEnemyIdle)))
+                .AddChild(new LeafNode("Idle", new IdleStrategy(enemy, 2f)))
+                .AddChild(new LeafNode("PatrolAnimation", new ActionStrategy(enemy.Animator.OnEnemyMove)))
+                .AddChild(new LeafNode("Patrol", new PatrolStrategy(enemy)));
+
+            mainSelector.AddChild(deathSequence);
+            mainSelector.AddChild(attackSequence);
+            mainSelector.AddChild(patrolSequence);
             m_behaviorTree.AddChild(mainSelector);
-            enemy.GetComponent<Collider2D>()
         }
 
         public override void Process()

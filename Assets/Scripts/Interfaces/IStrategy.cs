@@ -85,6 +85,44 @@ namespace PetesPlatformer
         }
     }
 
+    public class WaitForAnimationStrategy : IStrategy
+    {
+        private Enemy m_enemy;
+
+        public WaitForAnimationStrategy(Enemy enemy)
+        {
+            m_enemy = enemy;
+        }
+
+        public Node.Status Process()
+        {
+            if (m_enemy.Animator.AttackFrameReached)
+            {
+                return Node.Status.Success;
+            }
+
+            return Node.Status.Running;
+        }
+    }
+
+    public class RangedAttackStrategy : IStrategy
+    {
+        private Enemy m_enemy;
+        private RangedWeaponSettings m_weaponSettings;
+
+        public RangedAttackStrategy(Enemy enemy, RangedWeaponSettings weaponSettings)
+        {
+            m_enemy = enemy;
+            m_weaponSettings = weaponSettings;
+        }
+
+        public Node.Status Process()
+        {
+            m_weaponSettings.SpawnProjectile(m_enemy.AttackPosition.position, m_enemy.AttackPosition.right);
+            return Node.Status.Success;
+        }
+    }
+
     public class MoveStrategy : IStrategy
     {
         private readonly Enemy r_enemy;
@@ -142,10 +180,12 @@ namespace PetesPlatformer
         public Node.Status Process()
         {
             Vector3 targetPosition = r_enemy.PatrolPositions[m_targetIndex].position;
-            r_enemy.Motor.MoveTowardPosition(targetPosition);
+            var moveDirection = (targetPosition - r_enemy.transform.position).normalized;
+
+            r_enemy.Motor.MoveTowardPosition(moveDirection);
             r_enemy.Motor.SetLookDirection();
 
-            if (Vector3.Distance(r_enemy.transform.position, targetPosition) <= .05f)
+            if (Vector3.Distance(r_enemy.transform.position, targetPosition) <= .2f)
             {
                 r_enemy.transform.position = targetPosition;
                 m_targetIndex++;

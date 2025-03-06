@@ -6,6 +6,7 @@ namespace PetesPlatformer
     {
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            Debug.Log("player detected: " + collision.gameObject.name);
             IsPlayerDetected = true;
         }
 

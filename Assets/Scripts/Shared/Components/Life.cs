@@ -7,13 +7,16 @@ namespace PetesPlatformer
     {
         private float m_health;
         private float m_lastDamageTime;
+        private Vector3 m_damagerPosition;
+        private bool m_wasDamageTaken;
         public event EventHandler PlayerDied = delegate { };
 
         [SerializeField] private Stats m_stats;
 
         public Action Died = delegate { };
-        public event Action<Vector3> DamageTaken = delegate { };
+        public event Action<Vector3> PlayerDamaged = delegate { };
         public bool IsDead { get; private set; }
+        public Vector3 DamagerPosition { get { return m_damagerPosition; } }
 
         private void Start()
         {
@@ -39,8 +42,17 @@ namespace PetesPlatformer
             }
             else
             {
-                DamageTaken.Invoke(damagerPosition);
+                PlayerDamaged.Invoke(damagerPosition);
+                m_wasDamageTaken = true;
+                m_damagerPosition = damagerPosition;
             }
+        }
+
+        public bool WasHitTaken()
+        {
+            bool wasDamaged = m_wasDamageTaken;
+            m_wasDamageTaken = false;
+            return wasDamaged;
         }
     }
 }

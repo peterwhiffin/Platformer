@@ -16,6 +16,7 @@ namespace PetesPlatformer
         [field: SerializeField] public List<Transform> PatrolPositions { get; private set; }
         [field: SerializeField] public EnemyDamager Damager { get; private set; }
         [field: SerializeField] public PlayerDetector PlayerDetector { get; private set; }
+        [field: SerializeField] public Transform AttackPosition { get; private set; }
 
         private void Awake()
         {
@@ -28,14 +29,14 @@ namespace PetesPlatformer
 
             if (EnemyLife != null)
             {
-                EnemyLife.DamageTaken += OnDamageTaken;
+                EnemyLife.PlayerDamaged += OnDamageTaken;
             }
         }
 
         private void OnDestroy()
         {
             SceneRoot.GamePaused -= OnGamePaused;
-            EnemyLife.DamageTaken -= OnDamageTaken;          
+            EnemyLife.PlayerDamaged -= OnDamageTaken;          
         }
 
         private void OnGamePaused(bool isPaused)

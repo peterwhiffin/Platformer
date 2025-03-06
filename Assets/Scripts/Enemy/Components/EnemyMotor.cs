@@ -18,10 +18,7 @@ namespace PetesPlatformer
 
         public void MoveTowardPosition(Vector3 targetPosition)
         {
-            var velocity = (targetPosition - transform.position).normalized * Settings.MoveSpeed;
-            //m_rigidbody.linearVelocityX = ((targetPosition - transform.position).normalized * Settings.MoveSpeed).x;
-            //m_rigidbody.linearVelocityY = 0f;
-            m_rigidbody.linearVelocity = velocity;
+            m_rigidbody.linearVelocity = targetPosition * Settings.MoveSpeed;
         }
 
         public void SetLookDirection()
@@ -33,7 +30,7 @@ namespace PetesPlatformer
                 return;
             }
 
-            float yRotation = m_rigidbody.linearVelocityX > 0 ? 180 : 0;
+            float yRotation = m_rigidbody.linearVelocityX > 0 ? 0 : 180;
 
             transform.eulerAngles = new Vector3(0f, yRotation, 0f);
         }

@@ -48,7 +48,15 @@ namespace PetesPlatformer
                 m_movementHeldTime = 0f;
             }
 
-            if (m_player.Motor.IsGrounded)
+            if (m_player.PlayerLife.IsDead)
+            {
+                m_stateMachine.ChangeState(m_player.DeathState);
+            }
+            else if (m_player.PlayerLife.WasHitTaken())
+            {
+                m_stateMachine.ChangeState(m_player.HitState);
+            }
+            else if (m_player.Motor.IsGrounded)
             {
                 m_stateMachine.ChangeState(m_player.IdleState);
             }
