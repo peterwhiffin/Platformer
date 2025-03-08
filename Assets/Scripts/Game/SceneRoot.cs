@@ -20,23 +20,26 @@ namespace PetesPlatformer
             gameObject.SetActive(true);
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             InputReader.MenuInput += OnPauseInput;
 
             if (m_isPausable)
             {
-                m_sceneLoader.PauseMenu.ResumeClicked += PauseMenu_OnResume;
+                if (m_sceneLoader != null)
+                {
+                    m_sceneLoader.PauseMenu.ResumeClicked += PauseMenu_OnResume;
+                }
             }
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             InputReader.MenuInput -= OnPauseInput;
             m_sceneLoader.PauseMenu.ResumeClicked -= PauseMenu_OnResume;
         }
 
-        public void OnPauseInput()
+        protected void OnPauseInput()
         {
             m_isPaused = !m_isPaused;
             m_sceneLoader.TogglePauseMenu(m_isPaused);

@@ -57,11 +57,11 @@ namespace Unity.Cinemachine.Samples
                     FreeCamera = cam;
             }
             if (AimCamera == null)
-                Debug.LogError("AimCameraRig: no valid CinemachineThirdPersonAim camera found among children");
+                Debug.LogError("AimCameraRig: no valid CinemachineThirdPersonAim cam found among children");
             if (AimController == null)
                 Debug.LogError("AimCameraRig: no valid SimplePlayerAimController target found");
             if (FreeCamera == null)
-                Debug.LogError("AimCameraRig: no valid non-aiming camera found among children");
+                Debug.LogError("AimCameraRig: no valid non-aiming cam found among children");
         }
 
         protected override CinemachineVirtualCameraBase ChooseCurrentCamera(Vector3 worldUp, float deltaTime)

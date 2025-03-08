@@ -9,7 +9,7 @@ namespace PetesPlatformer
         private float m_lastDamageTime;
         private Vector3 m_damagerPosition;
         private bool m_wasDamageTaken;
-        public event EventHandler PlayerDied = delegate { };
+        public event Action PlayerDied = delegate { };
 
         [SerializeField] private Stats m_stats;
 
@@ -19,6 +19,11 @@ namespace PetesPlatformer
         public Vector3 DamagerPosition { get { return m_damagerPosition; } }
 
         private void Start()
+        {
+            OnRespawn();
+        }
+
+        public void OnRespawn()
         {
             IsDead = false;
             m_health = m_stats.MaxHealth;
@@ -37,8 +42,9 @@ namespace PetesPlatformer
             if(m_health <= 0)
             {
                 IsDead = true;
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
                 Died.Invoke();
+                PlayerDied.Invoke();
             }
             else
             {

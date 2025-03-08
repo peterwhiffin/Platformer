@@ -7,8 +7,9 @@ namespace PetesPlatformer
     public class Enemy : MonoBehaviour
     {
         private bool m_isPaused;
+        private BehaviorTree m_behaviorTree;
 
-        [SerializeField] private EnemyBehaviorTree m_behaviorTree;
+        [SerializeField] private EnemyBehaviorTree m_behaviorTreeTemplate;
 
         [field: SerializeField] public Life EnemyLife { get; private set; }
         [field: SerializeField] public EnemyMotor Motor { get; private set; }
@@ -20,7 +21,7 @@ namespace PetesPlatformer
 
         private void Awake()
         {
-            m_behaviorTree.BuildTree(this);
+            m_behaviorTree = m_behaviorTreeTemplate.GetTree(this);
         }
 
         private void Start()
@@ -61,7 +62,12 @@ namespace PetesPlatformer
                 return;
             }
 
-            m_behaviorTree.Process();
+
+
+            if(m_behaviorTree.Proccess() != Node.Status.Running)
+            {
+                m_behaviorTree.Reset();
+            }
         }
     }
 }

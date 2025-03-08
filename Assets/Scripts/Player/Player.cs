@@ -99,8 +99,18 @@ namespace PetesPlatformer
         private void OnDeath()
         {
             PlayerDamager.gameObject.SetActive(false);
-            PlayerLife.gameObject.SetActive(false);
+            //PlayerLife.gameObject.SetActive(false);
             //m_stateMachine.ChangeState(DeathState);
+        }
+
+        public void OnSpawn(Vector3 postion)
+        {
+            transform.position = postion;
+            PlayerDamager.gameObject.SetActive(true);
+            //PlayerLife.gameObject.SetActive(true);
+            PlayerLife.OnRespawn();
+            Animator.OnRespawn();
+            m_stateMachine.ChangeState(IdleState);
         }
     }
 }

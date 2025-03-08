@@ -32,7 +32,10 @@ namespace PetesPlatformer
 
         private void OnDestroy()
         {
-            m_eventReceiver.OnNotify -= OnNotify;
+            if (m_eventReceiver != null)
+            {
+                m_eventReceiver.OnNotify -= OnNotify;
+            }
         }
 
         private void OnNotify(string message)

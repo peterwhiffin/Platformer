@@ -96,12 +96,12 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 883089429
+  m_SortingLayer: 7
   m_SortingOrder: 4
   m_Sprite: {fileID: -3906221422484359612, guid: 35d33412cf90ccf4f9e1b5100ba41640, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa9d3ac51284f340baf85457cd26d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_behaviorTree: {fileID: 11400000, guid: 81d1e179203bbb34b90b09092b2124cd, type: 2}
+  m_behaviorTreeTemplate: {fileID: 11400000, guid: 81d1e179203bbb34b90b09092b2124cd, type: 2}
   <EnemyLife>k__BackingField: {fileID: 6115941127096030232}
   <Motor>k__BackingField: {fileID: 7036362936446925515}
   <Animator>k__BackingField: {fileID: 5215419234451999149}
@@ -462,7 +462,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.052794456, y: 0.20382637}
+  m_Offset: {x: 0.08880329, y: 0.12121798}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -472,8 +472,8 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.96593666, y: 0.16745865}
-  m_EdgeRadius: 0
+  m_Size: {x: 0.893919, y: 0.13780436}
+  m_EdgeRadius: 0.06
 --- !u!1 &7344862213839480026
 GameObject:
   m_ObjectHideFlags: 0

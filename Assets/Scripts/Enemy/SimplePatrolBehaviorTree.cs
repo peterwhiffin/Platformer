@@ -5,9 +5,9 @@ namespace PetesPlatformer
     [CreateAssetMenu(menuName = "Enemy/Behavior Tree/Simple Patrol", fileName = "NewSimplePatrolTree")]
     public class SimplePatrolBehaviorTree : EnemyBehaviorTree
     {
-        public override void BuildTree(Enemy enemy)
+        public override BehaviorTree GetTree(Enemy enemy)
         {
-            m_behaviorTree = new("EnemyTree");
+            var behaviorTree = new BehaviorTree("EnemyTree");
             var mainSelector = new SelectorNode("MainSelector");
 
             var lifeSequence = new SequenceNode("LifeSequence")
@@ -23,15 +23,8 @@ namespace PetesPlatformer
 
             mainSelector.AddChild(deathSequence);
             mainSelector.AddChild(lifeSequence);
-            m_behaviorTree.AddChild(mainSelector);
-        }
-
-        public override void Process()
-        {
-            if (m_behaviorTree.Proccess() != Node.Status.Running)
-            {
-                m_behaviorTree.Reset();
-            }
+            behaviorTree.AddChild(mainSelector);
+            return behaviorTree;
         }
     }
 }

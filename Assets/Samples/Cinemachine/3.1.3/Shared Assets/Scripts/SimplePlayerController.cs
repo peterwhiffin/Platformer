@@ -113,7 +113,7 @@ namespace Unity.Cinemachine.Samples
         public enum UpModes { Player, World };
 
         [Tooltip("Reference frame for the input controls:\n"
-            + "<b>Camera</b>: Input forward is camera forward direction.\n"
+            + "<b>Camera</b>: Input forward is cam forward direction.\n"
             + "<b>Player</b>: Input forward is Player's forward direction.\n"
             + "<b>World</b>: Input forward is World forward direction.")]
         public ForwardModes InputForward = ForwardModes.Camera;
@@ -123,7 +123,7 @@ namespace Unity.Cinemachine.Samples
             + "<b>World</b>: Move in global XZ plane.")]
         public UpModes UpMode = UpModes.World;
 
-        [Tooltip("If non-null, take the input frame from this camera instead of Camera.main. Useful for split-screen games.")]
+        [Tooltip("If non-null, take the input frame from this cam instead of Camera.main. Useful for split-screen games.")]
         public Camera CameraOverride;
 
         [Tooltip("Layers to include in ground detection via Raycasts.")]

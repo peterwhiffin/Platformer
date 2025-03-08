@@ -15,9 +15,11 @@ namespace PetesPlatformer
         {
             m_player.Motor.ApplyGravity();
         }
+
         public override void LateUpdate()
         {
         }
+
         public override void OnEnter()
         {
             m_enterTime = Time.time;
@@ -25,10 +27,12 @@ namespace PetesPlatformer
             m_player.Motor.OnDamageTaken(m_player.PlayerLife.DamagerPosition);
             //m_player.gameObject.layer = 14;
         }
+
         public override void OnExit()
         {
             //m_player.gameObject.layer = 13;
         }
+
         public override void Update()
         {
             m_player.Motor.CheckForGround();

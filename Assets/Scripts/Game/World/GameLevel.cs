@@ -1,31 +1,80 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using System;
+using System.Collections;
 
 namespace PetesPlatformer
 {
 
-    public class GameLevel : MonoBehaviour
+    public class GameLevel : SceneRoot
     {
-        [SerializeField] private SceneRoot m_sceneRoot;
+        [SerializeField] private Checkpoint m_currentCheckpoint;
+
         [SerializeField] private GameSave m_activeSave;
         [SerializeField] private Player m_player;
         [SerializeField] private FinishLine m_finishLine;
         [SerializeField] private List<LevelInfo> m_levelsToUnlock;
-        
+        [SerializeField] private List<Checkpoint> m_checkpoints;
+        [SerializeField] private float m_respawnTime;
+        [SerializeField] private float m_victoryTime;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             SceneManager.SetActiveScene(gameObject.scene);
             
             m_finishLine.FinishReached += OnFinishLineReached;
-            
+            m_player.PlayerLife.PlayerDied += OnPlayerDied;
+
+            foreach(Checkpoint checkpoint in m_checkpoints)
+            {
+                checkpoint.CheckpointReached += OnCheckPointTriggered;
+            }
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+
             m_finishLine.FinishReached -= OnFinishLineReached;
+            m_player.PlayerLife.PlayerDied -= OnPlayerDied;
+
+            foreach (Checkpoint checkpoint in m_checkpoints)
+            {
+                checkpoint.CheckpointReached -= OnCheckPointTriggered;
+            }
+        }
+
+        private void OnPlayerDied()
+        {
+            StartCoroutine(RespawnTimer());
+        }
+
+        private IEnumerator RespawnTimer()
+        {
+            float timeElapsed = 0f;
+
+            while(timeElapsed < m_respawnTime)
+            {
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            m_activeSave.m_lives -= 1;
+
+            if(m_activeSave.m_lives == 0)
+            {
+                SceneLoader.LoadScene("Overworld");
+            }
+            else
+            {
+                m_player.OnSpawn(m_currentCheckpoint.transform.position);
+            }
+        }
+
+        private void OnCheckPointTriggered(Checkpoint checkpoint)
+        {
+            m_currentCheckpoint = checkpoint;
         }
 
         private void OnFinishLineReached()
@@ -38,9 +87,22 @@ namespace PetesPlatformer
                 }
             }
 
+            StartCoroutine(VictoryTimer());
+        }
+
+        private IEnumerator VictoryTimer()
+        {
+            float timeElapsed = 0f;
+            
+            while(timeElapsed < m_victoryTime)
+            {
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+
             m_finishLine.FinishReached -= OnFinishLineReached;
             SaveLoadHelper.SaveToSlot(m_activeSave);
-            m_sceneRoot.SceneLoader.LoadScene("Overworld");
+            SceneLoader.LoadScene("Overworld");
         }
     }
 }

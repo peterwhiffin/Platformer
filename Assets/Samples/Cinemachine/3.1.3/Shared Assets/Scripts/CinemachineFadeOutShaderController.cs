@@ -19,9 +19,9 @@ namespace Unity.Cinemachine.Samples
         /// with FadeOut material are going to be transparent.
         /// The strength of the transparency depends on how far the objects are from the camera and the FadeOut range.
         /// </summary>
-        [Tooltip("The range is defined from the camera (x value) towards the look direction (y value) within which " +
+        [Tooltip("The range is defined from the cam (x value) towards the look direction (y value) within which " +
             "objects with FadeOut material are going to be transparent. \nThe strength of the transparency depends " +
-            "on how far the objects are from the camera and the FadeOut range.")]
+            "on how far the objects are from the cam and the FadeOut range.")]
         [MinMaxRangeSlider(0, 20)]
         public Vector2 FadeOutRange = new (0f, 10f);
 
@@ -30,7 +30,7 @@ namespace Unity.Cinemachine.Samples
         /// distance between this virtual camera and LookAt target minus m_LookAtTargetRadius.
         /// </summary>
         [Tooltip("If true, MaxDistance will be set to " +
-            "distance between this virtual camera and LookAt target minus LookAtTargetRadius.")]
+            "distance between this virtual cam and LookAt target minus LookAtTargetRadius.")]
         public bool MaxDistanceControlledByCamera = true;
     
         /// <summary>Material using the FadeOut shader.</summary>

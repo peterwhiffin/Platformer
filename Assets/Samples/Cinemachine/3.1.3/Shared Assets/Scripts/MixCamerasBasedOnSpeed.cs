@@ -5,7 +5,7 @@ namespace Unity.Cinemachine.Samples
     [RequireComponent(typeof(CinemachineMixingCamera))]
     public class MixCamerasBasedOnSpeed : MonoBehaviour
     {
-        [Tooltip("At and above this speed, the second camera is going to be in control completely.")]
+        [Tooltip("At and above this speed, the second cam is going to be in control completely.")]
         public float MaxSpeed;
         public Rigidbody Rigidbody;
         CinemachineMixingCamera m_Mixer;

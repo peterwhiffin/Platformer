@@ -24,14 +24,14 @@ namespace Unity.Cinemachine.Samples
     {
         public enum CouplingMode { Coupled, CoupledWhenMoving, Decoupled }
 
-        [Tooltip("How the player's rotation is coupled to the camera's rotation.  Three modes are available:\n"
-            + "<b>Coupled</b>: The player rotates with the camera.  Sideways movement will result in strafing.\n"
+        [Tooltip("How the player's rotation is coupled to the cam's rotation.  Three modes are available:\n"
+            + "<b>Coupled</b>: The player rotates with the cam.  Sideways movement will result in strafing.\n"
             + "<b>Coupled When Moving</b>: Camera can rotate freely around the player when the player is stationary, "
-                + "but the player will rotate to face camera forward when it starts moving.\n"
-            + "<b>Decoupled</b>: The player's rotation is independent of the camera's rotation.")]
+                + "but the player will rotate to face cam forward when it starts moving.\n"
+            + "<b>Decoupled</b>: The player's rotation is independent of the cam's rotation.")]
         public CouplingMode PlayerRotation;
 
-        [Tooltip("How fast the player rotates to face the camera direction when the player starts moving.  "
+        [Tooltip("How fast the player rotates to face the cam direction when the player starts moving.  "
             + "Only used when Player Rotation is Coupled When Moving.")]
         public float RotationDamping = 0.2f;
 

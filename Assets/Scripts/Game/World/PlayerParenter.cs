@@ -7,11 +7,13 @@ namespace PetesPlatformer
         public void Enter(Transform childTransform)
         {
             childTransform.SetParent(transform);
+            childTransform.GetComponent<Rigidbody2D>().interpolation = RigidbodyInterpolation2D.None;
         }
 
         public void Exit(Transform childTransform)
         {
             childTransform.SetParent(null);
+            childTransform.GetComponent<Rigidbody2D>().interpolation = RigidbodyInterpolation2D.Interpolate;
         }
     }
 }

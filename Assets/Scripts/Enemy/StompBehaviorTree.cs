@@ -10,9 +10,9 @@ namespace PetesPlatformer
         [SerializeField] private float m_resetDelay;
         [SerializeField] private float m_resetDuration;
 
-        public override void BuildTree(Enemy enemy)
+        public override BehaviorTree GetTree(Enemy enemy)
         {
-            m_behaviorTree = new("EnemyTree");
+            var behaviorTree = new BehaviorTree("EnemyTree");
             var mainSelector = new SelectorNode("MainSelector");
 
             var stompSequence = new SequenceNode("StompSequence")
@@ -25,15 +25,8 @@ namespace PetesPlatformer
                 .AddChild(new LeafNode("ResetPosition", new MoveStrategy(enemy, enemy.PatrolPositions[1].position, enemy.PatrolPositions[0].position, m_resetDuration, 12f)));
 
             mainSelector.AddChild(stompSequence);
-            m_behaviorTree.AddChild(mainSelector);
-        }
-
-        public override void Process()
-        {
-            if (m_behaviorTree.Proccess() != Node.Status.Running)
-            {
-                m_behaviorTree.Reset();
-            }
+            behaviorTree.AddChild(mainSelector);
+            return behaviorTree;
         }
     }
 }

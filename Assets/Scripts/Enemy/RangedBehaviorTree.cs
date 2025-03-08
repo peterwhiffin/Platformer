@@ -8,9 +8,9 @@ namespace PetesPlatformer
         [SerializeField] private RangedWeaponSettings m_weapon;
         [SerializeField] private float m_fireRate = 1f;
 
-        public override void BuildTree(Enemy enemy)
+        public override BehaviorTree GetTree(Enemy enemy)
         {
-            m_behaviorTree = new("EnemyTree");
+            var behaviorTree = new BehaviorTree("EnemyTree");
             var mainSelector = new SelectorNode("MainSelector");
 
             var deathSequence = new SequenceNode("DeathSequence")
@@ -35,15 +35,8 @@ namespace PetesPlatformer
             mainSelector.AddChild(deathSequence);
             mainSelector.AddChild(attackSequence);
             mainSelector.AddChild(patrolSequence);
-            m_behaviorTree.AddChild(mainSelector);
-        }
-
-        public override void Process()
-        {
-            if (m_behaviorTree.Proccess() != Node.Status.Running)
-            {
-                m_behaviorTree.Reset();
-            }
+            behaviorTree.AddChild(mainSelector);
+            return behaviorTree;
         }
     }
 }

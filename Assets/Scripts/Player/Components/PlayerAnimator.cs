@@ -30,6 +30,12 @@ namespace PetesPlatformer
             m_currentState = newState;
         }
 
+        public void OnRespawn()
+        {
+            ChangeAnimation(m_idleHash);
+            m_animator.Play(m_idleHash, 0, 0f);
+        }
+
         public void OnPlayerIdle()
         {
             ChangeAnimation(m_idleHash);

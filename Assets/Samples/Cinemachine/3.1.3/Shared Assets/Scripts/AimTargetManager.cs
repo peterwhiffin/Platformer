@@ -8,7 +8,7 @@ namespace Unity.Cinemachine.Samples
     /// </summary> 
     public class AimTargetManager : MonoBehaviour
     {
-        [Tooltip("This canvas will be enabled when there is a 3rdPersoAim camera active")]
+        [Tooltip("This canvas will be enabled when there is a 3rdPersoAim cam active")]
         public Canvas ReticleCanvas;
 
         [Tooltip("If non-null, this target will pe positioned on the screen over the actual aim target")]

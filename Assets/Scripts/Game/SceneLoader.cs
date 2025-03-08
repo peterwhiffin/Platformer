@@ -21,7 +21,8 @@ namespace PetesPlatformer
         [SerializeField] private GameSave m_activeSave;
 
         public Camera MainCamera { get { return m_mainCamera; } }
-        public PauseMenu PauseMenu {  get { return m_pauseMenu; } }
+        public PauseMenu PauseMenu { get { return m_pauseMenu; } }
+        public GameSave ActiveSave { get { return m_activeSave; } }
 
         private void Awake()
         {
